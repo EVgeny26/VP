@@ -6,6 +6,22 @@ using namespace std;
 
 
 #pragma region функции-заглушки
+int f1() {
+    std::cout << "function f1 is running...\n\n";
+    return 1;
+}
+
+int f2() {
+    std::cout << "function f2 is running...\n\n";
+    return 2;
+}
+
+int f3() {
+    std::cout << "function f3 is running...\n\n";
+    return 3;
+}
+
+
 int sqrt_25() {
     std::cout << "Корень 25 - это "<< sqrt(25) <<"\n\n";
     return 1;
@@ -38,11 +54,11 @@ int sqrt_with_enter() {
 }
 #pragma endregion
 
-const int ITEMS_NUMBER = 3;
+const int ITEMS_NUMBER = 6;
 
 
 int main() {
-    CMenuItem items[ITEMS_NUMBER] {CMenuItem{"Вычислить корень 25", sqrt_25}, CMenuItem{"Вычислить корень 25 графически", sqrt_25_graf}, CMenuItem{"Вычеслить корень числа", sqrt_with_enter}};
+    CMenuItem items[ITEMS_NUMBER] {CMenuItem{"first item", f1}, CMenuItem{"second item", f2}, CMenuItem{"third item", f3},CMenuItem{"Вычислить корень 25", sqrt_25}, CMenuItem{"Вычислить корень 25 графически", sqrt_25_graf}, CMenuItem{"Вычеслить корень числа", sqrt_with_enter}};
     CMenu menu("My console menu", items, ITEMS_NUMBER);
     while (menu.runCommand()) {};
 
