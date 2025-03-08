@@ -1,6 +1,7 @@
 #include "menu/CMenu.h"
 #include "menu/CMenuItem.h"
 #include <cmath>
+#include <ctime>
 
 using namespace std;
 
@@ -58,9 +59,19 @@ const int ITEMS_NUMBER = 6;
 
 
 int main() {
-    CMenuItem items[ITEMS_NUMBER] {CMenuItem{"first item", f1}, CMenuItem{"second item", f2}, CMenuItem{"third item", f3},CMenuItem{"Вычислить корень 25", sqrt_25}, CMenuItem{"Вычислить корень 25 графически", sqrt_25_graf}, CMenuItem{"Вычеслить корень числа", sqrt_with_enter}};
-    CMenu menu("My console menu", items, ITEMS_NUMBER);
-    while (menu.runCommand()) {};
+    time_t currentTime = time(0);  // nullptr эквивалентно 0
+    tm* localTime = localtime(&currentTime);
+
+    int year = localTime->tm_year + 1900; // Год начинается с 1900
+    int month = localTime->tm_mon + 1;   // Месяц начинается с 0 (январь = 0)
+    int day = localTime->tm_mday;  
+
+    cout<<day<<'.'<<month<<'.'<<year;
+
+
+    // CMenuItem items[ITEMS_NUMBER] {CMenuItem{"first item", f1}, CMenuItem{"second item", f2}, CMenuItem{"third item", f3},CMenuItem{"Вычислить корень 25", sqrt_25}, CMenuItem{"Вычислить корень 25 графически", sqrt_25_graf}, CMenuItem{"Вычеслить корень числа", sqrt_with_enter}};
+    // CMenu menu("My console menu", items, ITEMS_NUMBER);
+    // while (menu.runCommand()) {};
 
     return 0;
 }
