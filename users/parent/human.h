@@ -33,16 +33,25 @@ public:
     unsigned short get_day(){return day;}
     unsigned short get_month(){return month;}
     unsigned short get_year(){return year;}
+    string to_str(){
+        return string{to_string(day)+'.'+to_string(month)+'.'+to_string(year)};
+    }
+    bool operator>(const DATEBIRTH& other) const{
+        if(year==other.year){
+            if(month==other.month){
+                return day>other.day;
+            }return month>other.month;
+        }return year>other.year;
+    }
 };
+
+enum GENDER{
+    main, femail
+};
+
 
 class Human{
     private:
-
-        enum GENDER{
-            main, femail
-        };
-
-
         string name{};
         DATEBIRTH birth{};
         GENDER gender;
@@ -57,7 +66,9 @@ class Human{
 
         string get_name();
         string get_login();
+        string get_password();
         DATEBIRTH get_datebirth();
         unsigned short get_age();
+        GENDER get_gender();
 };
 

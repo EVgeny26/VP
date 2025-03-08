@@ -10,7 +10,9 @@ void Human::set_password(string password){this->password=password;}
 
 string Human::get_name(){return name;}
 string Human::get_login(){return login;}
+string Human::get_password(){return password;}
 DATEBIRTH Human::get_datebirth(){return birth;}
+GENDER Human::get_gender(){return gender;}
 unsigned short Human::get_age(){
     time_t currentTime = time(0);  // nullptr эквивалентно 0
     tm* localTime = localtime(&currentTime);
