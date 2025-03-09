@@ -18,11 +18,9 @@ bool DATEBIRTH::isValidDate(int d, int m, int y) const {
 }
 
 DATEBIRTH::DATEBIRTH(int d, int m, int y) : year(y), month(m), day(d) {
-    if (!isValidDate(day, month, year)) {
-        cerr << "Ошибка: Некорректная дата. Установлена дата по умолчанию (01-01-1970)." << endl;
-        year = 1970;
-        month = 1;
-        day = 1;
+    while (!isValidDate(day, month, year)) {
+        cerr << "Ошибка: Некорректная дата. Введите повторно(например: 3 5 2005)" << endl;
+        cin>>day>>month>>year;
     }
 }
 

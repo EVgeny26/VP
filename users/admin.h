@@ -18,6 +18,7 @@ public:
     ~Admin();
 
     void add_user(User user);
+    void add_user();
     void del_user(int pos);
     void del_user(string login);
     void sorted(int pole, bool revers);

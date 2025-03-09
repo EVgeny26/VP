@@ -62,19 +62,8 @@ const int ITEMS_NUMBER = 6;
 
 int main() {
     Admin admin{"Evgeny", DATEBIRTH{26,9,2006}, male, "MainAd", "12345678"};
-
-    admin.add_user(User{"Vova", DATEBIRTH{6,11,2006}, male, "Vov", "1234568"});
-    admin.add_user(User{"Adel", DATEBIRTH{26,6,2006}, male, "Mars", "1245678"});
-    if (admin.loud_to_file()) {
-        std::cout << "Данные администратора и пользователей успешно сохранены." << std::endl;
-    } else {
-        std::cerr << "Ошибка при сохранении данных." << std::endl;
-        return 1;
-    }
-    admin.del_user(0);
-    admin.del_user(0);
-    admin.pritall();
     admin.loud_from_file();
+
     admin.pritall();
 
 

@@ -12,6 +12,7 @@ public:
     // Дружественные функции для ввода/вывода
     friend ostream& operator<<(ostream& os, const User& obj);
     friend istream& operator>>(istream& is, User& obj);
+    void printToConsole(ostream& os, int indents[5]);
 };
 
 #endif

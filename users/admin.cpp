@@ -8,6 +8,31 @@ Admin::~Admin(){}
 void Admin::add_user(User user){
     users.push_back(user);
 }
+void Admin::add_user(){
+    cout<<"Ввод нового пользователя:\n";
+    cout<<"Введите логин:";
+    string login;
+    cin>>login;
+
+    cout<<"Введите пароль:";
+    string password;
+    cin>>password;
+
+    cout<<"Введите имя:";
+    string name;
+    cin>>name;
+
+    cout<<"Введите дату (пример: 3 5 2005)";
+    int d,m,y;
+    cin>>d>>m>>y;
+    DATEBIRTH birth{d,m,y};
+
+    cout<<"Введите пол (male - 0, female - 1):";
+    int gender;
+    cin>>gender;
+    users.push_back(User{name,birth,(GENDER)gender,login,password});
+    cout<<"Пользователь введен\n\n";
+}
 void Admin::del_user(int pos){
     if(pos>=users.size()){
         cerr<<"Out of range\n";
@@ -53,12 +78,33 @@ void Admin::sorted(int pole=0, bool revers=0){
 
 string Admin::get_filename(){return filename;}
 
+void printLine(int indents[5]) {
+    cout << setfill('-')
+              << '+' << right << setw(indents[0] + 1) << "+"
+              << setw(indents[1] + 1) << "+"
+              << setw(indents[2] + 1) << "+"
+              << setw(indents[3] + 1) << "+"
+              << setw(indents[4] + 1) << "+"
+              << endl;
+}
+
+void printNameColumn(int indents[5]) {
+    cout << setfill(' ')
+              << left << "|" << setw(indents[0]) <<"login"
+              << left << "|" << setw(indents[1]) << "name"
+              << left << "|" << setw(indents[2]) << "datebirth"
+              << right << "|" << setw(indents[3]) << "gen"
+              << right << "|" << setw(indents[4])<< "password"<<"|" << endl;
+}
+
 void Admin::pritall(){
-    cout<<setw(10)<<"login"<<setw(20)<<"name"<<setw(16)<<"datebirth";
-    cout<<setw(5)<<"gen"<<setw(12)<<"password"<<endl;
+    int indents[5]{15,20,16,10,12};
+    printLine(indents);
+    printNameColumn(indents);
     for(int i=0;i<users.size();i++){
-        cout<<users[i];
-    }
+        printLine(indents);
+        users[i].printToConsole(cout, indents);
+    }printLine(indents);
 }
 
 bool Admin::loud_to_file() {
