@@ -11,6 +11,6 @@ void CMenuItem::print() {
     std::cout << item_name;
 }
 
-int CMenuItem::run() {
+void CMenuItem::run() {
     return func();
 }

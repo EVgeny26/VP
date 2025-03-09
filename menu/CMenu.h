@@ -16,12 +16,13 @@ class CMenu {
         size_t getCount() const;
         CMenuItem *getItems();
         void print();
-        int runCommand();
+        void runCommand();
+        void setRunning(bool run);
 
     private:
         int select{-1};
         size_t count{};
-        bool running{};
+        bool running{1};
         string title{};
         CMenuItem *items{};
 };

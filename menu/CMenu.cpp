@@ -22,6 +22,10 @@ CMenuItem *CMenu::getItems() {
     return items;
 }
 
+void CMenu::setRunning(bool run){
+    running=run;
+}
+
 void CMenu::print() {
     for (size_t i{}; i < count; ++i) {
         std::cout << i + 1 << ". ";
@@ -31,12 +35,15 @@ void CMenu::print() {
     std::cout << "0. выйти" << std::endl;
 }
 
-int CMenu::runCommand() {
+void CMenu::runCommand() {
     do{
         print();
         std::cout << "\n   Ввод >> ";
         std::cin >> select;
     }while(select<0 || select>count);
-    if (select==0) return 0;
-    return items[select - 1].run();
+    if (select==0) {
+        setRunning(false); // Устанавливаем running в false при выборе "выйти"
+        return;
+    }items[select - 1].run();
+    
 }

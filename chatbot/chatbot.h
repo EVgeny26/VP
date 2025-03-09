@@ -6,7 +6,8 @@
 class chatbot
 {
 private:
-    /* data */
+    int command;
+    
 public:
     chatbot(/* args */);
     ~chatbot();
