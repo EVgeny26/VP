@@ -1,11 +1,24 @@
 #include "user.h"
-#include <iomanip>
+#include <iostream>
 
-User::User(string name, DATEBIRTH birth, GENDER gender, string login, string password): Human(name, birth, gender, login, password){}
-User::~User(){}
+using namespace std;
 
-ostream& operator<<(ostream& os, User& obj){
-    os<<setw(10)<<obj.get_login()<<setw(20)<<obj.get_name()<<setw(12)<<obj.get_datebirth().to_str();
-    os<<' '<<obj.get_gender()<<' '<<setw(12)<<obj.get_password()<<endl;
+User::User(): Human(){}
+User::User(string name, DATEBIRTH birth, GENDER gender, string login, string password)
+    : Human(name, birth, gender, login, password) {}
+
+User::~User() {}
+
+// Дружественная функция для записи User в бинарный файл
+ostream& operator<<(ostream& os, const User& obj) {
+    // Используем оператор << для Human, чтобы записать общие поля
+    os << static_cast<const Human&>(obj);
     return os;
+}
+
+// Дружественная функция для чтения User из бинарного файла
+istream& operator>>(istream& is, User& obj) {
+    // Используем оператор >> для Human, чтобы прочитать общие поля
+    is >> static_cast<Human&>(obj);
+    return is;
 }

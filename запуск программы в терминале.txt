@@ -3,4 +3,5 @@
 В папку menu необходимо вложить по дфай файла .h (заголовочный)  и .cpp (файл реализации) для классов CMenu и  CMenuItem.
 Далее необходимо прокомпилировать все .cpp файлы командой в терминале, выполнив команду: 
 g++ ./main.cpp ./menu/CMenuItem.cpp ./menu/CMenu.cpp
+g++ ./main.cpp ./menu/CMenuItem.cpp ./menu/CMenu.cpp ./users/parent/human.h ./users/parent/human.cpp ./users/user.h ./users/user.cpp ./users/admin.h ./users/admin.cpp
 После этого запустить программу в терминале командой .\a.exe в ОС Windows или ./a.out в ОС Linux.

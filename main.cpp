@@ -2,6 +2,8 @@
 #include "menu/CMenuItem.h"
 #include <cmath>
 #include <ctime>
+#include "users/admin.h"
+#include "users/user.h"
 
 using namespace std;
 
@@ -59,14 +61,23 @@ const int ITEMS_NUMBER = 6;
 
 
 int main() {
-    time_t currentTime = time(0);  // nullptr эквивалентно 0
-    tm* localTime = localtime(&currentTime);
+    Admin admin{"Evgeny", DATEBIRTH{26,9,2006}, male, "MainAd", "12345678"};
 
-    int year = localTime->tm_year + 1900; // Год начинается с 1900
-    int month = localTime->tm_mon + 1;   // Месяц начинается с 0 (январь = 0)
-    int day = localTime->tm_mday;  
+    admin.add_user(User{"Vova", DATEBIRTH{6,11,2006}, male, "Vov", "1234568"});
+    admin.add_user(User{"Adel", DATEBIRTH{26,6,2006}, male, "Mars", "1245678"});
+    if (admin.loud_to_file()) {
+        std::cout << "Данные администратора и пользователей успешно сохранены." << std::endl;
+    } else {
+        std::cerr << "Ошибка при сохранении данных." << std::endl;
+        return 1;
+    }
+    admin.del_user(0);
+    admin.del_user(0);
+    admin.pritall();
+    admin.loud_from_file();
+    admin.pritall();
 
-    cout<<day<<'.'<<month<<'.'<<year;
+
 
 
     // CMenuItem items[ITEMS_NUMBER] {CMenuItem{"first item", f1}, CMenuItem{"second item", f2}, CMenuItem{"third item", f3},CMenuItem{"Вычислить корень 25", sqrt_25}, CMenuItem{"Вычислить корень 25 графически", sqrt_25_graf}, CMenuItem{"Вычеслить корень числа", sqrt_with_enter}};
