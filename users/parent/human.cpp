@@ -125,21 +125,27 @@ ostream& operator<<(ostream& os, const Human& human) {
 istream& operator>>(istream& is, Human& human) {
     size_t name_len;
     is.read((char*)(&name_len), sizeof(name_len));
-    human.name.resize(name_len);
-    is.read(human.name.data(), name_len);
+    char *str = new char[name_len];
+    is.read(str, name_len);
+    human.name=str;
+    delete str;
 
     is >> human.birth; // Используем перегруженный оператор >> для DATEBIRTH
     is >> human.gender; // Используем перегруженный оператор >> для GENDER
 
     size_t login_len;
     is.read((char*)(&login_len), sizeof(login_len));
-    human.login.resize(login_len);
-    is.read(human.login.data(), login_len);
+    str = new char[login_len];
+    is.read(str, login_len);
+    human.login=str;
+    delete str;
 
     size_t password_len;
     is.read((char*)(&password_len), sizeof(password_len));
-    human.password.resize(password_len);
-    is.read(human.password.data(), password_len);
+    str = new char[password_len];
+    is.read(str, password_len);
+    human.password=str;
+    delete str;
 
     return is;
 }
