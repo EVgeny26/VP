@@ -46,6 +46,8 @@ DATEBIRTH::DATEBIRTH(string date){
     delete idate;
 }
 
+DATEBIRTH::DATEBIRTH(tm* localTime): day(localTime->tm_mday), month(localTime->tm_mon+1), year(localTime->tm_year+1900){}
+
 unsigned short DATEBIRTH::get_day() const { return day; }
 unsigned short DATEBIRTH::get_month() const { return month; }
 unsigned short DATEBIRTH::get_year() const { return year; }

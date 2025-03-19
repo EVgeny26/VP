@@ -23,8 +23,7 @@ int main() {
 
     time_t currentTime = time(0);  // nullptr эквивалентно 0
     tm* localTime = localtime(&currentTime);
-    cout<<localTime->tm_mday<<' '<<localTime->tm_mon<<' '<<localTime->tm_year<<endl;
-    DATEBIRTH date{"19.3.2025"};
-    cout<<(date<=localTime);
+    DATEBIRTH date{localTime};
+    cout<<date.to_str();
     return 0;
 }

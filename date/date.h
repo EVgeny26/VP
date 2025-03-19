@@ -18,6 +18,7 @@ struct DATEBIRTH {
     public:
         DATEBIRTH(int d = 1, int m = 1, int y = 1970);
         DATEBIRTH(string date);
+        DATEBIRTH(tm* localTime);
 
         unsigned short get_day() const;
         unsigned short get_month() const;
