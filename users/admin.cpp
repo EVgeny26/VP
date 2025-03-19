@@ -2,7 +2,7 @@
 #include <iomanip>
 #include <fstream>
 
-Admin::Admin(string name, DATEBIRTH birth, GENDER gender, string login, string password): Human(name, birth, gender, login, password), filename("usersInfo/users.bin") {}
+Admin::Admin(string name, DATEBIRTH birth, GENDER gender, string login, string password): Human(name, birth, gender, login, password) {}
 Admin::~Admin(){}
 
 void Admin::add_user(User user){
@@ -76,8 +76,6 @@ void Admin::sorted(int pole=0, bool revers=0){
     }
 }
 
-string Admin::get_filename(){return filename;}
-
 void printLine(int indents[5]) {
     cout << setfill('-')
               << '+' << right << setw(indents[0] + 1) << "+"
@@ -107,8 +105,7 @@ void Admin::pritall(){
     }printLine(indents);
 }
 
-bool Admin::loud_to_file() {
-    string filename = get_filename();
+bool Admin::loud_to_file(string filename) {
     ofstream file(filename, ios::binary);
     if (!file.is_open()) {
         cerr << "Ошибка: Не удалось открыть файл для записи: " << filename << endl;
@@ -126,8 +123,7 @@ bool Admin::loud_to_file() {
     return 1;
 }
 
-bool Admin::loud_from_file() {
-    string filename = get_filename();
+bool Admin::loud_from_file(string filename) {
     ifstream file(filename, ios::binary);
     if (!file.is_open()) {
         cerr << "Ошибка: Не удалось открыть файл для чтения: " << filename << endl;

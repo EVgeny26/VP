@@ -2,7 +2,6 @@
 #include <ctime>   // Для локального времени при обработке даты
 #include <iomanip> // Для put_time
 #include <iostream> // для cerr
-#include <limits>  // для numeric_limits
 
 using namespace std;
 
@@ -107,8 +106,8 @@ ostream& operator<<(ostream& os, const Human& human) {
     os.write((char*)(&name_len), sizeof(name_len));
     os.write(human.name.c_str(), name_len);
 
-    os << human.birth; // Используем перегруженный оператор << для DATEBIRTH
-    os << human.gender; // Используем перегруженный оператор << для GENDER
+    os << human.birth; 
+    os << human.gender; 
 
     size_t login_len = human.login.size();
     os.write((char*)(&login_len), sizeof(login_len));
@@ -156,7 +155,7 @@ bool writeHumansToFile(const string& filename, const vector<Human>& humans) {
     file.write((char*)(&num_humans), sizeof(num_humans));
 
     for (const auto& human : humans) {
-        file << human; // Используем перегруженный оператор << для Human
+        file << human;
     }
 
     file.close();

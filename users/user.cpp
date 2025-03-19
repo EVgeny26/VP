@@ -23,15 +23,12 @@ void User::printToConsole(ostream& os, int indents[5]) {
     os <<'|'<< setw(indents[3]) << (get_gender() == male ? "Male" : "Female") <<'|'<< setw(indents[4]+CountRu(get_password())) << get_password() <<'|'<< endl;
 }
 
-// Дружественная функция для записи User в бинарный файл
 ostream& operator<<(ostream& os, const User& obj) {
     os << static_cast<const Human&>(obj);
     return os;
 }
 
-// Дружественная функция для чтения User из бинарного файла
 istream& operator>>(istream& is, User& obj) {
-    // Используем оператор >> для Human, чтобы прочитать общие поля
     is >> static_cast<Human&>(obj);
     return is;
 }
