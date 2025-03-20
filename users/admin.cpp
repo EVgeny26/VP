@@ -2,7 +2,7 @@
 #include <iomanip>
 #include <fstream>
 
-Admin::Admin(string name, DATEBIRTH birth, GENDER gender, string login, string password): Human(name, birth, gender, login, password) {}
+Admin::Admin(string name, DATE birth, GENDER gender, string login, string password): Human(name, birth, gender, login, password) {}
 Admin::~Admin(){}
 
 void Admin::add_user(User user){
@@ -25,7 +25,7 @@ void Admin::add_user(){
     cout<<"Введите дату (пример: 3 5 2005)";
     int d,m,y;
     cin>>d>>m>>y;
-    DATEBIRTH birth{d,m,y};
+    DATE birth{d,m,y};
 
     cout<<"Введите пол (male - 0, female - 1):";
     int gender;
@@ -61,7 +61,7 @@ void Admin::sorted(int pole=0, bool revers=0){
                     isChangee=users[j].get_login()>users[j+1].get_login();
                     break;
                 case 2: 
-                    isChangee=users[j].get_datebirth()>users[j+1].get_datebirth();
+                    isChangee=users[j].get_DATE()>users[j+1].get_DATE();
                     break;
                 default:
                     return;
@@ -90,7 +90,7 @@ void printNameColumn(int indents[5]) {
     cout << setfill(' ')
               << left << "|" << setw(indents[0]) <<"login"
               << left << "|" << setw(indents[1]) << "name"
-              << left << "|" << setw(indents[2]) << "datebirth"
+              << left << "|" << setw(indents[2]) << "DATE"
               << right << "|" << setw(indents[3]) << "gen"
               << right << "|" << setw(indents[4])<< "password"<<"|" << endl;
 }

@@ -6,7 +6,7 @@
 class User : public Human {
 public:
     User();
-    User(string name, DATEBIRTH birth, GENDER gender, string login, string password);
+    User(string name, DATE birth, GENDER gender, string login, string password);
     ~User();
 
     // Дружественные функции для ввода/вывода

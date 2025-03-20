@@ -5,7 +5,7 @@
 using namespace std;
 
 User::User(): Human(){}
-User::User(string name, DATEBIRTH birth, GENDER gender, string login, string password)
+User::User(string name, DATE birth, GENDER gender, string login, string password)
     : Human(name, birth, gender, login, password) {}
 
 User::~User() {}
@@ -19,7 +19,7 @@ int CountRu(string str){
 
 void User::printToConsole(ostream& os, int indents[5]) {
     os<<setfill(' ');
-    os <<left<<'|'<< setw(indents[0]+CountRu(get_login())) << get_login() <<'|'<< setw(indents[1]+CountRu(get_name())) << get_name() <<'|'<< setw(indents[2]) << get_datebirth().to_str();
+    os <<left<<'|'<< setw(indents[0]+CountRu(get_login())) << get_login() <<'|'<< setw(indents[1]+CountRu(get_name())) << get_name() <<'|'<< setw(indents[2]) << get_DATE().to_str();
     os <<'|'<< setw(indents[3]) << (get_gender() == male ? "Male" : "Female") <<'|'<< setw(indents[4]+CountRu(get_password())) << get_password() <<'|'<< endl;
 }
 

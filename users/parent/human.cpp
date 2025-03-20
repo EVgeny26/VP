@@ -30,7 +30,7 @@ unsigned short Human::get_age(){
 }
 
 Human::Human() : name(""), birth(), gender(male), login(""), password("") {}
-Human::Human(string name, DATEBIRTH birth, GENDER gender, string login, string password) :
+Human::Human(string name, DATE birth, GENDER gender, string login, string password) :
     name(name), birth(birth), gender(gender), login(login), password(password) {}
 
 Human::~Human() {}
@@ -41,7 +41,7 @@ void Human::set_password(string password) { this->password = password; }
 string Human::get_name() const { return name; }
 string Human::get_login() const { return login; }
 string Human::get_password() const { return password; }
-DATEBIRTH Human::get_datebirth() const { return birth; }
+DATE Human::get_DATE() const { return birth; }
 GENDER Human::get_gender() const { return gender; }
 
 // Дружественная функция для записи Human в бинарный файл
@@ -73,7 +73,7 @@ istream& operator>>(istream& is, Human& human) {
     human.name=str;
     delete str;
 
-    is >> human.birth; // Используем перегруженный оператор >> для DATEBIRTH
+    is >> human.birth; // Используем перегруженный оператор >> для DATE
     is >> human.gender; // Используем перегруженный оператор >> для GENDER
 
     size_t login_len;
