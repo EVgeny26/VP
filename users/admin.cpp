@@ -2,7 +2,7 @@
 #include <iomanip>
 #include <fstream>
 
-Admin::Admin(string name, DATE birth, GENDER gender, string login, string password): Human(name, birth, gender, login, password) {}
+Admin::Admin(string name, MYDATE birth, GENDER gender, string login, string password): Human(name, birth, gender, login, password) {}
 Admin::~Admin(){}
 
 void Admin::add_user(User user){
@@ -25,7 +25,7 @@ void Admin::add_user(){
     cout<<"Введите дату (пример: 3 5 2005)";
     int d,m,y;
     cin>>d>>m>>y;
-    DATE birth{d,m,y};
+    MYDATE birth{d,m,y};
 
     cout<<"Введите пол (male - 0, female - 1):";
     int gender;

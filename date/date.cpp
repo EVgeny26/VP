@@ -2,7 +2,7 @@
 #include <cstring>
 #include <ctime>
 
-bool DATE::isValidDate(int d, int m, int y) const {
+bool MYDATE::isValidDate(int d, int m, int y) const {
     if (y < 1 || m < 1 || m > 12 || d < 1) {
         return false;
     }
@@ -13,7 +13,7 @@ bool DATE::isValidDate(int d, int m, int y) const {
     return d <= daysInMonth[m];
 }
 
-DATE::DATE(int d, int m, int y) : year(y), month(m), day(d) {
+MYDATE::MYDATE(int d, int m, int y) : year(y), month(m), day(d) {
     while (!isValidDate(day, month, year)) {
         cerr << "Ошибка: Некорректная дата. Введите повторно(например: 3 5 2005)" << endl;
         cin>>day>>month>>year;
@@ -33,7 +33,7 @@ int *StrDateToInt(string date){
     return idate;
 }
 
-DATE::DATE(string date){
+MYDATE::MYDATE(string date){
     int *idate=StrDateToInt(date);
     while (!isValidDate(idate[0], idate[1], idate[2])) {
         cerr << "Ошибка: Некорректная дата. Введите повторно(например: 4.5.2006)" << endl;
@@ -46,20 +46,20 @@ DATE::DATE(string date){
     delete idate;
 }
 
-DATE::DATE(tm* localTime): day(localTime->tm_mday), month(localTime->tm_mon+1), year(localTime->tm_year+1900){}
+MYDATE::MYDATE(tm* localTime): day(localTime->tm_mday), month(localTime->tm_mon+1), year(localTime->tm_year+1900){}
 
-unsigned short DATE::get_day() const { return day; }
-unsigned short DATE::get_month() const { return month; }
-unsigned short DATE::get_year() const { return year; }
+unsigned short MYDATE::get_day() const { return day; }
+unsigned short MYDATE::get_month() const { return month; }
+unsigned short MYDATE::get_year() const { return year; }
 
 
-string DATE::to_str() const {
+string MYDATE::to_str() const {
     return to_string(day) + '.' + to_string(month) + '.' + to_string(year);
 }
 
 
-// Операторы сравнения DATE
-bool DATE::operator>(const DATE& other) const {
+// Операторы сравнения MYDATE
+bool MYDATE::operator>(const MYDATE& other) const {
     if (year == other.year) {
         if (month == other.month) {
             return day > other.day;
@@ -68,10 +68,10 @@ bool DATE::operator>(const DATE& other) const {
     }
     return year > other.year;
 }
-bool DATE::operator<=(const DATE& other) const {
+bool MYDATE::operator<=(const MYDATE& other) const {
     return !operator>(other);
 }
-bool DATE::operator<(const DATE& other) const {
+bool MYDATE::operator<(const MYDATE& other) const {
     if (year == other.year) {
         if (month == other.month) {
             return day < other.day;
@@ -80,27 +80,31 @@ bool DATE::operator<(const DATE& other) const {
     }
     return year < other.year;
 }
-bool DATE::operator>=(const DATE& other) const {
+bool MYDATE::operator>=(const MYDATE& other) const {
     return !operator<(other);
 }
-bool DATE::operator==(const DATE& other) const {
+bool MYDATE::operator==(const MYDATE& other) const {
     return year==other.year && month==other.month && day==other.day;
 }
-bool DATE::operator!=(const DATE& other) const {
+bool MYDATE::operator!=(const MYDATE& other) const {
     return !operator==(other);
 }
 
 
 // Дружественная функция для записи DATE в бинарный файл
-ostream& operator<<(ostream& os, const DATE& date) {
-    os.write((char*)(&date.year), sizeof(date.year));
-    os.write((char*)(&date.month), sizeof(date.month));
-    os.write((char*)(&date.day), sizeof(date.day));
+ostream& operator<<(ostream& os, const MYDATE& date) {
+    if(&os==&cout){
+        os<<date.day<<'.'<<date.month<<'.'<<date.year;
+    }else{
+        os.write((char*)(&date.year), sizeof(date.year));
+        os.write((char*)(&date.month), sizeof(date.month));
+        os.write((char*)(&date.day), sizeof(date.day));
+    }
     return os;
 }
 
 // Дружественная функция для чтения DATE из бинарного файла
-istream& operator>>(istream& is, DATE& date) {
+istream& operator>>(istream& is, MYDATE& date) {
     is.read((char*)(&date.year), sizeof(date.year));
     is.read((char*)(&date.month), sizeof(date.month));
     is.read((char*)(&date.day), sizeof(date.day));
@@ -114,8 +118,8 @@ istream& operator>>(istream& is, DATE& date) {
 }
 
 
-// Операторы сравнения tm и DATE
-bool operator>(const DATE& date, const tm* localTime){
+// Операторы сравнения tm и MYDATE
+bool operator>(const MYDATE& date, const tm* localTime){
     if (date.get_year() == localTime->tm_year+1900) {
         if (date.get_month() == localTime->tm_mon+1) {
             return date.get_day() > localTime->tm_mday;
@@ -124,10 +128,10 @@ bool operator>(const DATE& date, const tm* localTime){
     }
     return date.get_year() > localTime->tm_year+1900;
 }
-bool operator<=(const DATE& date, const tm* localTime){
+bool operator<=(const MYDATE& date, const tm* localTime){
     return !operator>(date, localTime);
 }
-bool operator<(const DATE& date, const tm* localTime){
+bool operator<(const MYDATE& date, const tm* localTime){
     if (date.get_year() == localTime->tm_year+1900) {
         if (date.get_month() == localTime->tm_mon+1) {
             return date.get_day() < localTime->tm_mday;
@@ -136,33 +140,33 @@ bool operator<(const DATE& date, const tm* localTime){
     }
     return date.get_year() < localTime->tm_year+1900;
 }
-bool operator>=(const DATE& date, const tm* localTime){
+bool operator>=(const MYDATE& date, const tm* localTime){
     return !operator<(date, localTime);
 }
-bool operator==(const DATE& date, const tm* localTime){
+bool operator==(const MYDATE& date, const tm* localTime){
     return date.get_day()==localTime->tm_mday && date.get_month()==localTime->tm_mon+1 && date.get_year()==localTime->tm_year+1900;
 }
-bool operator!=(const DATE& date, const tm* localTime){
+bool operator!=(const MYDATE& date, const tm* localTime){
     return !operator==(date, localTime);
 }
 
 
 
-bool operator>(const tm* localTime, const DATE& date){
+bool operator>(const tm* localTime, const MYDATE& date){
     return date<localTime;
 }
-bool operator<=(const tm* localTime, const DATE& date){
+bool operator<=(const tm* localTime, const MYDATE& date){
     return date>=localTime;
 }
-bool operator<(const tm* localTime, const DATE& date){
+bool operator<(const tm* localTime, const MYDATE& date){
     return date>localTime;
 }
-bool operator>=(const tm* localTime, const DATE& date){
+bool operator>=(const tm* localTime, const MYDATE& date){
     return date<localTime;
 }
-bool operator==(const tm* localTime, const DATE& date){
+bool operator==(const tm* localTime, const MYDATE& date){
     return operator==(date, localTime);
 }
-bool operator!=(const tm* localTime, const DATE& date){
+bool operator!=(const tm* localTime, const MYDATE& date){
     return operator!=(date, localTime);
 }

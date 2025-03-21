@@ -21,14 +21,14 @@ class Human {
 private:
     unsigned short id{};
     string name;
-    DATE birth;
+    MYDATE birth;
     GENDER gender;
     string login;
     string password;
 
 public:
     Human(); 
-    Human(string name, DATE birth, GENDER gender, string login, string password);
+    Human(string name, MYDATE birth, GENDER gender, string login, string password);
     ~Human();
     void set_name(string name);
     void set_password(string password);
@@ -36,7 +36,7 @@ public:
     string get_name() const; 
     string get_login() const; 
     string get_password() const; 
-    DATE get_DATE() const; 
+    MYDATE get_DATE() const; 
     GENDER get_gender() const;   
     unsigned short get_age();
 

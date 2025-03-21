@@ -1,15 +1,57 @@
 #include <ctime>
+#include <fstream>
+#include <cstring>
 
 #include "chatbot.h"
 
-NOTE::NOTE(): date(DATE()), message((string)""){}
-NOTE::NOTE(DATE date, string message): date(date), message(message){}
+#ifdef _WIN32
+#include <windows.h> // Для Windows API
+#else
+#include <sys/stat.h> // Для mkdir и stat
+#include <unistd.h>   // Для доступа к POSIX-функциям
+#endif
+
+// Функция для создания директории
+bool create_directory(const string& path) {
+#ifdef _WIN32
+    // Windows: используем CreateDirectory
+    if (CreateDirectory(path.c_str(), NULL)){
+        return true;
+    } else {
+        return GetLastError() == ERROR_ALREADY_EXISTS;
+    }
+#else
+    // Linux: используем mkdir
+    if (mkdir(path.c_str(), 0777) == 0) {
+        return true;
+    } else {
+        return errno == EEXIST;
+    }
+#endif
+}
+
+// Функция для проверки существования файла или директории
+bool exists(const string& path) {
+    #ifdef _WIN32
+        // Windows: используем GetFileAttributes
+        DWORD attributes = GetFileAttributes(path.c_str());
+        return attributes != INVALID_FILE_ATTRIBUTES;
+    #else
+        // Linux: используем stat
+        struct stat info;
+        return stat(path.c_str(), &info) == 0;
+    #endif
+}
+
+
+NOTE::NOTE(): date(MYDATE()), message((string)""){}
+NOTE::NOTE(MYDATE date, string message): date(date), message(message){}
 NOTE::~NOTE(){}
 
-DATE NOTE::get_date(){return date;}
+MYDATE NOTE::get_date(){return date;}
 string NOTE::get_message(){return message;}
 
-void NOTE::set_date(DATE date){this->date=date;}
+void NOTE::set_date(MYDATE date){this->date=date;}
 void NOTE::set_message(string message){this->message=message;}
 
 bool NOTE::operator>(const NOTE& other) const{
@@ -36,9 +78,13 @@ bool NOTE::operator!=(const NOTE& other) const{
 ostream& operator<<(ostream& os, const NOTE& note){
     os<<note.date;
 
-    size_t message_len = note.message.size();
-    os.write((char*)(&message_len), sizeof(message_len));
-    os.write(note.message.c_str(), message_len);
+    if(&os==&cout){
+        os<<": "<<note.message;
+    }else{
+        size_t message_len = note.message.size();
+        os.write((char*)(&message_len), sizeof(message_len));
+        os.write(note.message.c_str(), message_len);
+    }
 
     return os;
 }
@@ -58,12 +104,12 @@ istream& operator>>(istream& is, NOTE& note){
 CHATBOT::CHATBOT(){
     time_t currentTime = time(0);
     tm* localTime = localtime(&currentTime);
-    today=DATE(localTime);
+    today=MYDATE(localTime);
 }
 CHATBOT::CHATBOT(vector<NOTE> notes): notes(notes) {
     time_t currentTime = time(0);
     tm* localTime = localtime(&currentTime);
-    today=DATE(localTime);
+    today=MYDATE{localTime};
 }
 CHATBOT::~CHATBOT(){}
 
@@ -79,8 +125,9 @@ void CHATBOT::sorted(){
         }
     }
 }
-DATE CHATBOT::get_today(){return today;}
+MYDATE CHATBOT::get_today(){return today;}
 int CHATBOT::get_len(){return notes.size();}
+vector<NOTE> CHATBOT::get_notes(){return notes;}
 
 void CHATBOT::add_note(NOTE note){
     for(int i=0;i<notes.size();i++){
@@ -90,17 +137,17 @@ void CHATBOT::add_note(NOTE note){
         }
     }notes.push_back(note);
 }
-vector<string> CHATBOT::notes_today(){
-    vector<string> notesToday;
-    NOTE note;
+vector<NOTE> CHATBOT::notes_today(){
+    vector<NOTE> notesToday;
+    NOTE note=notes[0];
     for(int i=0;i<notes.size();i++, note=notes[i]){
         if(note.get_date()>today)break;
-        notesToday.push_back(note.get_message());
+        notesToday.push_back(note);
     }return notesToday;
 }
-vector<string> CHATBOT::notes_day(DATE date){
+vector<string> CHATBOT::notes_day(MYDATE date){
     vector<string> notesDay;
-    NOTE note;
+    NOTE note=notes[0];
     for(int i=0;i<notes.size();i++, note=notes[i]){
         if(note.get_date()==date)notesDay.push_back(note.get_message());
         if(note.get_date()>date)break;
@@ -142,12 +189,99 @@ void CHATBOT::del_all_completed(){
     }
 }
 
+void CHATBOT::getWhatDayIsToday(){getWhatDayIs(today);}
+void skipLine(ifstream& fin){
+    char next;
+    while(fin.get(next)){if (next == '\n')break;}
+}
+void CHATBOT::getWhatDayIs(MYDATE date){
+    string filename="chatbot/holidays.txt";
+    ifstream fin(filename);
+    if(!fin.good()){
+        cerr<<"Ошибка: Не удалось открыть файл для чтения "<<filename<<endl;
+        fin.close();
+    }else{
+        while(fin.is_open()){
+            string sdate_hol;
+            fin>>sdate_hol;
+            sdate_hol.resize(sdate_hol.size()-1);
 
+            MYDATE ddate_hol{sdate_hol};
+            if(ddate_hol.get_day()==date.get_day() && ddate_hol.get_month()==date.get_month()){
+                char holidays[1000];
+                fin.getline(holidays, 1000);
+                char *word = strtok(holidays, "|");
+                if(date==today)cout<<"Сегодня празднуются следующие дни:\n";
+                else cout<<date.to_str()<<" празднуются следующие дни:\n";
+                while(word!=nullptr){
+                    cout<<word<<endl;
+                    word = strtok(nullptr, "|");
+                }cout<<endl;
+                return;
+            }skipLine(fin);
+        }
+        if(date==today)cout<<"Сегодня нет праздников\n";
+        else cout<<date.to_str()<<" нет праздников\n";
+    }
+}
 
+void CHATBOT::loud(string login){
+    string pathToDir="usersInfo/usersHistory/"+login, pathToFile=pathToDir+"/chatbot.bin";
+    
+    // Проверяем, существует ли директория
+    if (!exists(pathToDir)) {
+        // Если директории нет, создаём её
+        if (!create_directory(pathToDir)) {
+            cerr << "Ошибка при создании директории: " << pathToDir << endl;
+            return;
+        }
+    } 
+    // Проверяем, существует ли файл
+    if (!exists(pathToFile)) {
+        // Если файла нет, создаём его
+        ofstream file(pathToFile, ios::binary);
+        if (!file.is_open()) {
+            cerr << "Ошибка при создании файла: " << pathToFile << endl;
+            file.close();
+            return;
+        }file.close();
+    }else{
+        ifstream fin(pathToFile, ios::binary);
+        if (!fin.is_open()) {
+            cerr << "Ошибка при открытии файла: " << pathToFile << endl;
+        }else{
+            fin>>*this;
+            fin.close();
+        }
+    } 
+}
+void CHATBOT::save(string login){
+    string pathToDir="usersInfo/usersHistory/"+login, pathToFile=pathToDir+"/chatbot.bin";
+    
+    // Проверяем, существует ли директория
+    if (!exists(pathToDir)) {
+        // Если директории нет, создаём её
+        if (!create_directory(pathToDir)) {
+            cerr << "Ошибка при создании директории: " << pathToDir << endl;
+            return;
+        }
+    } 
+    
+    // Если файла нет, создаём его
+    ofstream fout(pathToFile, ios::binary);
+    if (!fout.is_open()) {
+        cerr << "Ошибка при создании файла: " << pathToFile << endl;
+        fout.close();
+        return;
+    }
+    fout<<*this;
+    fout.close();
+}
 
 ostream& operator<<(ostream& os, const CHATBOT& bot){
     for (int i = 0; i < bot.notes.size(); i++){
         os<<bot.notes[i];
+        if(&os==&cout)os<<endl;
     }
     return os;
 }
@@ -159,8 +293,22 @@ istream& operator>>(istream& is, CHATBOT& bot){
 NOTE& CHATBOT::operator[](int pos){
     if(pos>=notes.size()){
         cerr<<"Out of range\n";
-        NOTE note;
-        return note;
+        NOTE *note=nullptr;
+        return *note;
     }
     return notes[pos];
+}
+
+ostream& operator<<(ostream& os, const vector<NOTE> notes){
+    os<<"   ДАТА   : Заметка"<<endl;
+    for(int i=0;i<notes.size();i++){
+        os<<notes[i]<<endl;
+    }return os;
+}
+
+
+void CHATBOT::temp(){
+    ofstream fout("test.txt");
+    fout<<*this;
+    fout.close();
 }

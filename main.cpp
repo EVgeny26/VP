@@ -12,7 +12,7 @@ using namespace std;
 
 
 int main() {
-    Admin admin{"Evgeny", DATE{26,9,2006}, male, "MainAd", "12345678"};
+    Admin admin{"Evgeny", MYDATE{26,9,2006}, male, "MainAd", "12345678"};
 
     CMenu *menu = getAdminMenu(admin);
 

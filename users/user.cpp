@@ -5,7 +5,7 @@
 using namespace std;
 
 User::User(): Human(){}
-User::User(string name, DATE birth, GENDER gender, string login, string password)
+User::User(string name, MYDATE birth, GENDER gender, string login, string password)
     : Human(name, birth, gender, login, password) {}
 
 User::~User() {}

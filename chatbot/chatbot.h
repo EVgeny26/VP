@@ -8,18 +8,18 @@
 
 struct  NOTE{
 private:
-    DATE date;
+    MYDATE date;
     string message;
 
 public:
     NOTE();
-    NOTE(DATE,string);
+    NOTE(MYDATE,string);
     ~NOTE();
 
-    DATE get_date();
+    MYDATE get_date();
     string get_message();
 
-    void set_date(DATE);
+    void set_date(MYDATE);
     void set_message(string);
 
     bool operator>(const NOTE& other) const;
@@ -38,7 +38,7 @@ class CHATBOT
 {
 private:
     vector<NOTE> notes;
-    DATE today;
+    MYDATE today;
     
     void sorted();
 public:
@@ -46,12 +46,13 @@ public:
     CHATBOT(vector<NOTE> notes);
     ~CHATBOT();
 
-    DATE get_today();
+    MYDATE get_today();
+    vector<NOTE> get_notes();
     int get_len();
 
     void add_note(NOTE note);
-    vector<string> notes_today();
-    vector<string> notes_day(DATE date);
+    vector<NOTE> notes_today();
+    vector<string> notes_day(MYDATE date);
     void pop_note(int pos);
     void del_note(NOTE note);
     void del_all_notes();
@@ -59,11 +60,16 @@ public:
     void del_all_completed();
 
     void getWhatDayIsToday();
-    void getWhatDayIs(DATE);
+    void getWhatDayIs(MYDATE);
+
+    void loud(string login);
+    void save(string login);
 
     friend ostream& operator<<(ostream& os, const CHATBOT& bot);
     friend istream& operator>>(istream& is, CHATBOT& bot);
     NOTE& operator[](int pos);
 };
+
+ostream& operator<<(ostream& os, const vector<NOTE> notes);
 
 #endif //CHATBOT_H
