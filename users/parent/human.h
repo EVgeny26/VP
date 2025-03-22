@@ -39,6 +39,7 @@ public:
     MYDATE get_DATE() const; 
     GENDER get_gender() const;   
     unsigned short get_age();
+    void get_info();
 
     friend ostream& operator<<(ostream& os, const Human& human);
     friend istream& operator>>(istream& is, Human& human);

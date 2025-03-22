@@ -106,8 +106,20 @@ ostream& operator<<(ostream& os, const MYDATE& date) {
 // Дружественная функция для чтения DATE из бинарного файла
 istream& operator>>(istream& is, MYDATE& date) {
     is.read((char*)(&date.year), sizeof(date.year));
+    if(is.fail()) {
+        cerr << "Ошибка чтения года.\n";
+        return is;
+    }
     is.read((char*)(&date.month), sizeof(date.month));
+     if(is.fail()) {
+        cerr << "Ошибка чтения месяца.\n";
+        return is;
+    }
     is.read((char*)(&date.day), sizeof(date.day));
+     if(is.fail()) {
+        cerr << "Ошибка чтения дня.\n";
+        return is;
+    }
     if (!date.isValidDate(date.day, date.month, date.year)) {
         cerr << "Ошибка: Прочитана некорректная дата из файла. Установлена дата по умолчанию (01-01-1970)." << endl;
         date.year = 1970;

@@ -101,7 +101,7 @@ void Admin::pritall(){
     printNameColumn(indents);
     for(int i=0;i<users.size();i++){
         printLine(indents);
-        users[i].printToConsole(cout, indents);
+        users[i].printToConsoleInTable(cout, indents);
     }printLine(indents);
 }
 

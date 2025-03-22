@@ -2,6 +2,10 @@
 
 CMenu::CMenu(string title, CMenuItem *items, size_t count) : title(title), items(items), count(count) {}
 
+CMenu::~CMenu(){
+    delete[] items;
+}
+
 int CMenu::getSelect() const {
     return select;
 }

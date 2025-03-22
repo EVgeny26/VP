@@ -9,7 +9,7 @@ using namespace std;
 
 const int ITEMS_NUMBER = 7;
 
-CMenu* getAdminMenu(Admin admin) {
+CMenu* getAdminMenu(Admin& admin) {
     CMenuItem *items = new CMenuItem[ITEMS_NUMBER]{
         {"Print All Users", bind(&Admin::pritall, &admin)},
         {"Add User (interactive)", bind(static_cast<void (Admin::*)()>(&Admin::add_user), &admin)},

@@ -2,6 +2,7 @@
 
 
 CMenuItem::CMenuItem(std::string name, Func func) : item_name(name), func(func) {}
+CMenuItem::~CMenuItem(){}
 
 string CMenuItem::getName() {
     return item_name;

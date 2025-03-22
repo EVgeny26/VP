@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CMENU_H
+#define CMENU_H
 
 #include <string>
 #include "./CMenuItem.h"
@@ -7,8 +8,15 @@ using namespace std;
 
 
 class CMenu {
+    private:
+        int select{-1};
+        size_t count{};
+        bool running{1};
+        string title{};
+        CMenuItem *items{};
     public:
         CMenu(string, CMenuItem *, size_t);
+        ~CMenu();
         int getSelect() const;
         bool isRun() const;
         string getTitle();
@@ -18,10 +26,6 @@ class CMenu {
         void runCommand();
         void setRunning(bool run);
 
-    private:
-        int select{-1};
-        size_t count{};
-        bool running{1};
-        string title{};
-        CMenuItem *items{};
 };
+
+#endif // CMENU_H

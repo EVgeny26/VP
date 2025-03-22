@@ -43,6 +43,12 @@ string Human::get_login() const { return login; }
 string Human::get_password() const { return password; }
 MYDATE Human::get_DATE() const { return birth; }
 GENDER Human::get_gender() const { return gender; }
+void Human::get_info(){
+    cout<<"Логин: "<<login<<endl;
+    cout<<"Имя: "<<name<<endl;
+    cout<<"День рождения: "<<birth.to_str()<<endl;
+    cout<<"Пол: "<<(GENDER)gender<<endl;
+}
 
 // Дружественная функция для записи Human в бинарный файл
 ostream& operator<<(ostream& os, const Human& human) {

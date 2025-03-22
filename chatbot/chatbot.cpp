@@ -93,10 +93,10 @@ istream& operator>>(istream& is, NOTE& note){
 
     size_t message_len;
     is.read((char*)(&message_len), sizeof(message_len));
-    char *str = new char[message_len];
+    char *str = new char[message_len+1];
     is.read(str, message_len);
     note.message=str;
-    delete str;
+    delete[] str;
 
     return is;
 }
@@ -251,6 +251,11 @@ void CHATBOT::loud(string login){
             cerr << "Ошибка при открытии файла: " << pathToFile << endl;
         }else{
             fin>>*this;
+            if (fin.fail()) {
+                cerr << "Ошибка при чтении данных из файла: " << pathToFile << endl;
+                // Установите объект CHATBOT в состояние по умолчанию
+                *this = CHATBOT();
+            }
             fin.close();
         }
     } 
@@ -307,8 +312,8 @@ ostream& operator<<(ostream& os, const vector<NOTE> notes){
 }
 
 
-void CHATBOT::temp(){
-    ofstream fout("test.txt");
-    fout<<*this;
-    fout.close();
-}
+// void CHATBOT::temp(){
+//     ofstream fout("test.txt");
+//     fout<<*this;
+//     fout.close();
+// }

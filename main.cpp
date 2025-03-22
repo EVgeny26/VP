@@ -19,6 +19,6 @@ int main() {
     while (menu->isRun()) {
         menu->runCommand();
     }
-
+    
     return 0;
 }
