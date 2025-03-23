@@ -8,8 +8,6 @@ class User : public Human {
     CHATBOT* bot;
 
 public:
-    
-
     User();
     User(string name, MYDATE birth, GENDER gender, string login, string password);
     ~User();

@@ -24,27 +24,6 @@ void User::printNotes(){
     cout<<"\nЗаметки в следующем формате:\n"<<notes;
 
 }
-// void User::printCompletedNotes(){
-//     vector<NOTE> *notes = bot->notes_today();
-//     if(notes->empty()){
-//         cout<<"\nЗаметок нет\n";
-//         delete[] notes;
-//         return;
-//     }
-//     cout<<"\nЗаметки выполненые на сегодня:\n"<<notes;
-//     delete[] notes;
-// }
-// void User::printNotesDay(MYDATE date){
-//     vector<string> *notes = bot->notes_day(date);
-//     if(notes->empty()){
-//         cout<<"\nЗаметок нет\n";
-//         delete[] notes;
-//         return;
-//     }
-//     cout<<"\nЗаметки за "<<date.to_str()<<":\n";
-//     for(int i=0;i<notes->size();i++)cout<<(*notes)[i]<<endl;
-//     delete[] notes;
-// }
 
 int CountRu(string str){
     int count=0;

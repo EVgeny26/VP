@@ -9,6 +9,7 @@
 using namespace std;
 
 CMenu* getAdminMenu(Admin& admin) {
+    admin.loud_from_file("usersInfo/users.bin");
     // --- Подменю Удаление заметок ---
     const int deleteNotesItemsNumberAmount=3;
     CMenuItem *deleteNotesItems = new CMenuItem[deleteNotesItemsNumberAmount]{
@@ -42,7 +43,7 @@ CMenu* getAdminMenu(Admin& admin) {
     };
     CMenu *editProfileMenu = new CMenu("Изменение профиля", editProfileItems, editProfileItemsAmount);
 
-    const int mainMenuItemsAmount = 8;
+    const int mainMenuItemsAmount = 6;
     CMenuItem *items = new CMenuItem[mainMenuItemsAmount]{
         {"Ввести всех пользователей", bind(&Admin::pritall, &admin)},
         {"Добавить пользователя", bind(static_cast<void (Admin::*)()>(&Admin::add_user), &admin)},
@@ -55,9 +56,9 @@ CMenu* getAdminMenu(Admin& admin) {
             admin.sorted(pole, revers);
         })},
         {"Вывести свои данные", bind(&Admin::get_info, &admin)},
-        {"Load Users From File", bind([&admin](){admin.loud_from_file("usersInfo/users.bin");})},
-        {"Save Users To File", bind([&admin](){admin.loud_to_file("usersInfo/users.bin");})},
-        {"Выйти", {}}
+        {"Выйти", bind([](Admin& admin){
+            admin.loud_to_file("usersInfo/users.bin");
+        }, ref(admin))},
     };
 
     CMenu* adminMenu = new CMenu("Меню админа", items, mainMenuItemsAmount);

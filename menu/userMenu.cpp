@@ -10,7 +10,7 @@
 using namespace std;
 
 CMenu* getUserMenu(User& user){
-
+    user.loudBot();
     // --- Подменю Вывод заметок ---
     const int displayNotesItemsAmount=4;
     CMenuItem *displayNotesItems = new CMenuItem[displayNotesItemsAmount]{
@@ -89,7 +89,7 @@ CMenu* getUserMenu(User& user){
     // --- Главное меню ---
     const int mainMenuItemsAmount=7;
     CMenuItem *mainMenuItems = new CMenuItem[mainMenuItemsAmount]{
-        {"Ввывод заметок", bind(&CMenu::runCommand, displayNotesMenu)},
+        {"Вывод заметок", bind(&CMenu::runCommand, displayNotesMenu)},
         {"Добавить заметку", bind([](User& user){
                 cout << "Ввод даты:\n";
                 MYDATE date=getCorDate();
@@ -105,7 +105,9 @@ CMenu* getUserMenu(User& user){
         {"Какой праздник?", bind(&CMenu::runCommand, holidayMenu)},
         {"Изменение профиля", bind(&CMenu::runCommand, editProfileMenu)},
         {"Вывести свои данные", bind(&User::get_info, &user)},
-        {"Выйти", {}}
+        {"Выйти", bind([](User& user){
+            user.saveBot();
+        }, ref(user))}
     };
     CMenu *userMenu = new CMenu("Меню пользователя", mainMenuItems, mainMenuItemsAmount);
     

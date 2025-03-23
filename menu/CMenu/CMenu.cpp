@@ -37,13 +37,13 @@ void CMenu::setRunning(bool run){
 
 void CMenu::print() {
     for (size_t i{}; i < count-1; ++i) {
-        std::cout << i + 1 << ". ";
+        cout << i + 1 << ". ";
         items[i].print();
-        std::cout << std::endl;
+        cout << endl;
     }
-    std::cout << 0 << ". ";
+    cout << 0 << ". ";
     items[count-1].print();
-    std::cout << std::endl;
+    cout << endl;
 }
 
 void CMenu::runCommand() {
@@ -51,7 +51,7 @@ void CMenu::runCommand() {
     do{
         cout<<title<<endl;
         print();
-        std::cout << "\n   Ввод >> ";
+        cout << "\n   Ввод >> ";
         select=getCorNum();
     }while(select<0 || select>count-1);
     if (select==0) {
