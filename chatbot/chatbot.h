@@ -31,6 +31,7 @@ public:
 
     friend ostream& operator<<(ostream& os, const NOTE& note);
     friend istream& operator>>(istream& is, NOTE& note);
+    NOTE& operator=(const NOTE& other);
 };
 
 
@@ -51,8 +52,8 @@ public:
     int get_len();
 
     void add_note(NOTE note);
-    vector<NOTE> notes_today();
-    vector<string> notes_day(MYDATE date);
+    void notes_today();
+    void notes_day(MYDATE date);
     void pop_note(int pos);
     void del_note(NOTE note);
     void del_all_notes();
@@ -68,6 +69,8 @@ public:
     friend ostream& operator<<(ostream& os, const CHATBOT& bot);
     friend istream& operator>>(istream& is, CHATBOT& bot);
     NOTE& operator[](int pos);
+
+    void temp();
 };
 
 ostream& operator<<(ostream& os, const vector<NOTE> notes);

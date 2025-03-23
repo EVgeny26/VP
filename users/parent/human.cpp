@@ -47,7 +47,7 @@ void Human::get_info(){
     cout<<"Логин: "<<login<<endl;
     cout<<"Имя: "<<name<<endl;
     cout<<"День рождения: "<<birth.to_str()<<endl;
-    cout<<"Пол: "<<(GENDER)gender<<endl;
+    cout<<"Пол: "<<(gender? "ж":  "м")<<endl;
 }
 
 // Дружественная функция для записи Human в бинарный файл

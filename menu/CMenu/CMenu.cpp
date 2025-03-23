@@ -1,4 +1,5 @@
 #include "./CMenu.h"
+#include "../../controlEnter/control.h"
 
 CMenu::CMenu(string title, CMenuItem *items, size_t count) : title(title), items(items), count(count) {}
 
@@ -31,21 +32,24 @@ void CMenu::setRunning(bool run){
 }
 
 void CMenu::print() {
-    for (size_t i{}; i < count; ++i) {
+    for (size_t i{}; i < count-1; ++i) {
         std::cout << i + 1 << ". ";
         items[i].print();
         std::cout << std::endl;
     }
-    std::cout << "0. выйти" << std::endl;
+    std::cout << 0 << ". ";
+    items[count-1].print();
+    std::cout << std::endl;
 }
 
 void CMenu::runCommand() {
+    cout<<endl;
     do{
         cout<<title<<endl;
         print();
         std::cout << "\n   Ввод >> ";
-        std::cin >> select;
-    }while(select<0 || select>count);
+        select=getCorNum();
+    }while(select<0 || select>count-1);
     if (select==0) {
         setRunning(false); // Устанавливаем running в false при выборе "выйти"
         return;

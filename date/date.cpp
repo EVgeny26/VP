@@ -93,13 +93,9 @@ bool MYDATE::operator!=(const MYDATE& other) const {
 
 // Дружественная функция для записи DATE в бинарный файл
 ostream& operator<<(ostream& os, const MYDATE& date) {
-    if(&os==&cout){
-        os<<date.day<<'.'<<date.month<<'.'<<date.year;
-    }else{
-        os.write((char*)(&date.year), sizeof(date.year));
-        os.write((char*)(&date.month), sizeof(date.month));
-        os.write((char*)(&date.day), sizeof(date.day));
-    }
+    os.write((char*)(&date.year), sizeof(date.year));
+    os.write((char*)(&date.month), sizeof(date.month));
+    os.write((char*)(&date.day), sizeof(date.day));
     return os;
 }
 
@@ -121,7 +117,7 @@ istream& operator>>(istream& is, MYDATE& date) {
         return is;
     }
     if (!date.isValidDate(date.day, date.month, date.year)) {
-        cerr << "Ошибка: Прочитана некорректная дата из файла. Установлена дата по умолчанию (01-01-1970)." << endl;
+        cerr << "Ошибка: Прочитана некорректная дата из файла. Установлена дата по умолчанию (1.1.1970)." << endl;
         date.year = 1970;
         date.month = 1;
         date.day = 1;

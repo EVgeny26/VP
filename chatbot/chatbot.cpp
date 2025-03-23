@@ -1,6 +1,7 @@
 #include <ctime>
 #include <fstream>
 #include <cstring>
+#include <iomanip>
 
 #include "chatbot.h"
 
@@ -77,28 +78,30 @@ bool NOTE::operator!=(const NOTE& other) const{
 
 ostream& operator<<(ostream& os, const NOTE& note){
     os<<note.date;
-
-    if(&os==&cout){
-        os<<": "<<note.message;
-    }else{
-        size_t message_len = note.message.size();
-        os.write((char*)(&message_len), sizeof(message_len));
-        os.write(note.message.c_str(), message_len);
-    }
-
+    size_t message_len = note.message.size();
+    os.write((char*)(&message_len), sizeof(message_len));
+    os.write(note.message.c_str(), message_len);
     return os;
 }
 istream& operator>>(istream& is, NOTE& note){
     is>>note.date;
-
-    size_t message_len;
-    is.read((char*)(&message_len), sizeof(message_len));
-    char *str = new char[message_len+1];
-    is.read(str, message_len);
-    note.message=str;
-    delete[] str;
-
+    if(!is.fail()){
+        size_t message_len;
+        is.read((char*)(&message_len), sizeof(message_len));
+        char *str = new char[message_len+1];
+        is.read(str, message_len);
+        note.message=str;
+        delete[] str;
+    }
     return is;
+}
+
+NOTE& NOTE::operator=(const NOTE& other){
+    if (this != &other) {
+        date = other.date;
+        message = other.message;
+    }
+    return *this;
 }
 
 CHATBOT::CHATBOT(){
@@ -137,22 +140,32 @@ void CHATBOT::add_note(NOTE note){
         }
     }notes.push_back(note);
 }
-vector<NOTE> CHATBOT::notes_today(){
+void CHATBOT::notes_today(){
     vector<NOTE> notesToday;
-    NOTE note=notes[0];
-    for(int i=0;i<notes.size();i++, note=notes[i]){
+    for(NOTE note : notes){
         if(note.get_date()>today)break;
         notesToday.push_back(note);
-    }return notesToday;
+    }
+    if(notes.empty()){
+        cout<<"\nЗаметок нет\n";
+        return;
+    }
+    cout<<"\nЗаметки выполненые на сегодня:\n"<<notesToday;
 }
-vector<string> CHATBOT::notes_day(MYDATE date){
+void CHATBOT::notes_day(MYDATE date){
     vector<string> notesDay;
-    NOTE note=notes[0];
-    for(int i=0;i<notes.size();i++, note=notes[i]){
+    for(NOTE note : notes){
         if(note.get_date()==date)notesDay.push_back(note.get_message());
         if(note.get_date()>date)break;
-    }return notesDay;
+    }
+    if(notes.empty()){
+        cout<<"\nЗаметок нет\n";
+        return;
+    }
+    cout<<"\nЗаметки за "<<date.to_str()<<":\n";
+    for(int i=0;i<notesDay.size();i++)cout<<(notesDay)[i]<<endl;
 }
+
 void CHATBOT::pop_note(int pos){
     if(pos>=notes.size()){
         cerr<<"Out of range\n";
@@ -171,8 +184,9 @@ void CHATBOT::del_note(NOTE note){
 void CHATBOT::del_all_notes(){
     cout<<"Вы уверены? Введите 1, чтобы удалить, или 0, чтобы отменить действие:";
     char *ch = new char[2];
-    cin.getline(ch,2);
+    cin>>ch;
     if(ch[0]=='1')notes.clear();
+    delete[] ch;
 }
 void CHATBOT::del_note_completed(int pos){
     if(pos>=notes.size()){
@@ -205,18 +219,19 @@ void CHATBOT::getWhatDayIs(MYDATE date){
             string sdate_hol;
             fin>>sdate_hol;
             sdate_hol.resize(sdate_hol.size()-1);
-
             MYDATE ddate_hol{sdate_hol};
             if(ddate_hol.get_day()==date.get_day() && ddate_hol.get_month()==date.get_month()){
                 char holidays[1000];
                 fin.getline(holidays, 1000);
                 char *word = strtok(holidays, "|");
+                word++;
                 if(date==today)cout<<"Сегодня празднуются следующие дни:\n";
                 else cout<<date.to_str()<<" празднуются следующие дни:\n";
                 while(word!=nullptr){
                     cout<<word<<endl;
                     word = strtok(nullptr, "|");
                 }cout<<endl;
+                delete[] word;
                 return;
             }skipLine(fin);
         }
@@ -284,15 +299,32 @@ void CHATBOT::save(string login){
 }
 
 ostream& operator<<(ostream& os, const CHATBOT& bot){
-    for (int i = 0; i < bot.notes.size(); i++){
-        os<<bot.notes[i];
-        if(&os==&cout)os<<endl;
+    size_t notes_size = bot.notes.size();
+    os.write((char*)(&notes_size), sizeof(notes_size)); // Записываем размер вектора notes
+    for (const auto& note : bot.notes) {
+        os << note; // Используем перегруженный оператор для NOTE
     }
     return os;
 }
 istream& operator>>(istream& is, CHATBOT& bot){
-    NOTE note;
-    while(is>>note)bot.notes.push_back(note);
+    size_t notes_size;
+    is.read((char*)(&notes_size), sizeof(notes_size)); // Читаем размер вектора notes
+
+    // Проверяем размер вектора на разумность
+    if (notes_size > 1000) { // Например, максимальное количество заметок 1000
+        cerr << "Ошибка: Слишком много заметок в файле.\n";
+        is.setstate(ios::failbit);
+        return is;
+    }
+
+    bot.notes.resize(notes_size); // Изменяем размер вектора notes
+    for (size_t i = 0; i < notes_size; ++i) {
+        is >> bot.notes[i]; // Используем перегруженный оператор для NOTE
+        if (is.fail()) {
+            cerr << "Ошибка: Не удалось прочитать заметку из файла.\n";
+            return is;
+        }
+    }
     return is;
 }
 NOTE& CHATBOT::operator[](int pos){
@@ -306,14 +338,14 @@ NOTE& CHATBOT::operator[](int pos){
 
 ostream& operator<<(ostream& os, const vector<NOTE> notes){
     os<<"   ДАТА   : Заметка"<<endl;
-    for(int i=0;i<notes.size();i++){
-        os<<notes[i]<<endl;
+    for(NOTE note : notes){
+        os<<right<<setw(10)<<note.get_date().to_str()<<": "<<note.get_message()<<endl;
     }return os;
 }
 
 
-// void CHATBOT::temp(){
-//     ofstream fout("test.txt");
-//     fout<<*this;
-//     fout.close();
-// }
+void CHATBOT::temp(){
+    ofstream fout("test.txt");
+    fout<<*this;
+    fout.close();
+}
