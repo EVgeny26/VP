@@ -6,6 +6,7 @@
 
 using namespace std;
 
+void returnToMainMenu();
 
 class CMenu {
     private:

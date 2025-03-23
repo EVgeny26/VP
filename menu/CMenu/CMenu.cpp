@@ -1,6 +1,10 @@
 #include "./CMenu.h"
 #include "../../controlEnter/control.h"
 
+void returnToMainMenu() {
+    cout << "Возвращение в главное меню...\n";
+}
+
 CMenu::CMenu(string title, CMenuItem *items, size_t count) : title(title), items(items), count(count) {}
 
 CMenu::~CMenu(){
