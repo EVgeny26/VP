@@ -27,6 +27,36 @@ CMenu* getUserMenu(User& user){
     };
     CMenu* displayNotesMenu = new CMenu("Меню вывода заметок", displayNotesItems, displayNotesItemsAmount);
 
+    // --- Подменю Изменение заметок ---
+    const int changeNotesItemsAmount=3;
+    CMenuItem *changeNotesItems = new CMenuItem[changeNotesItemsAmount]{
+        {"Дату", bind([](User& user){
+            cout << "Введите позицию выбранной заметки: ";
+            int position=getCorNum();
+            NOTE& note=(*user.get_bot())[position-1];
+            if(note!=NOTE()){
+                cout << "Ввод даты:\n";
+                MYDATE date=getCorDate();
+                note.set_date(date);
+            }
+            }, ref(user))
+        },
+        {"Сообщение", bind([](User& user){
+            cout << "Введите позицию выбранной заметки: ";
+            int position=getCorNum();
+            NOTE& note=(*user.get_bot())[position-1];
+            if(note!=NOTE()){
+                string message;
+                cout << "Введи сообщение: ";
+                getline(cin >> ws, message);
+                note.set_message(message);
+            }
+            }, ref(user))
+        },
+        {"Возвращение в главное меню", returnToMainMenu}
+    };
+    CMenu *changeNotesMenu = new CMenu("Изменение замиток", changeNotesItems, changeNotesItemsAmount);
+
     // --- Подменю Удаление заметок ---
     const int deleteNotesItemsNumberAmount=5;
     CMenuItem *deleteNotesItems = new CMenuItem[deleteNotesItemsNumberAmount]{
@@ -87,7 +117,7 @@ CMenu* getUserMenu(User& user){
     CMenu *editProfileMenu = new CMenu("Изменение профиля", editProfileItems, editProfileItemsAmount);
 
     // --- Главное меню ---
-    const int mainMenuItemsAmount=7;
+    const int mainMenuItemsAmount=8;
     CMenuItem *mainMenuItems = new CMenuItem[mainMenuItemsAmount]{
         {"Вывод заметок", bind(&CMenu::runCommand, displayNotesMenu)},
         {"Добавить заметку", bind([](User& user){
@@ -101,6 +131,7 @@ CMenu* getUserMenu(User& user){
                 NOTE note(date, message);
                 user.get_bot()->add_note(note);
         }, ref(user))},
+        {"Изменить заметку", bind(&CMenu::runCommand, changeNotesMenu)},
         {"Удаление заметок", bind(&CMenu::runCommand, deleteNotesMenu)},
         {"Какой праздник?", bind(&CMenu::runCommand, holidayMenu)},
         {"Изменение профиля", bind(&CMenu::runCommand, editProfileMenu)},

@@ -23,6 +23,6 @@ int main() {
     while (menu->isRun()) {
         menu->runCommand();
     }
-    delete[] menu;
+    delete menu;
     return 0;
 }

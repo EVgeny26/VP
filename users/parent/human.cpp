@@ -52,13 +52,6 @@ void Human::get_info(){
 
 // Дружественная функция для записи Human в бинарный файл
 ostream& operator<<(ostream& os, const Human& human) {
-    size_t name_len = human.name.size();
-    os.write((char*)(&name_len), sizeof(name_len));
-    os.write(human.name.c_str(), name_len);
-
-    os << human.birth; 
-    os << human.gender; 
-
     size_t login_len = human.login.size();
     os.write((char*)(&login_len), sizeof(login_len));
     os.write(human.login.c_str(), login_len);
@@ -66,6 +59,13 @@ ostream& operator<<(ostream& os, const Human& human) {
     size_t password_len = human.password.size();
     os.write((char*)(&password_len), sizeof(password_len));
     os.write(human.password.c_str(), password_len);
+
+    size_t name_len = human.name.size();
+    os.write((char*)(&name_len), sizeof(name_len));
+    os.write(human.name.c_str(), name_len);
+
+    os << human.birth; 
+    os << human.gender; 
 
     return os;
 }

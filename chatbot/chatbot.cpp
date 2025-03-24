@@ -328,10 +328,10 @@ istream& operator>>(istream& is, CHATBOT& bot){
     return is;
 }
 NOTE& CHATBOT::operator[](int pos){
-    if(pos>=notes.size()){
+    if(pos>=notes.size()||pos<0){
         cerr<<"Out of range\n";
-        NOTE *note=nullptr;
-        return *note;
+        static NOTE dummyNote;
+        return dummyNote;
     }
     return notes[pos];
 }

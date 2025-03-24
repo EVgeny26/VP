@@ -9,9 +9,6 @@
 
 using namespace std;
 
-bool isValidString(const string& str);
-bool hasLettersAndDigits(const string& str);
-
 MYDATE getCorDate();
 string getCorName();
 string getCorPassword();
