@@ -10,11 +10,11 @@ using namespace std;
 
 CMenu* getAdminMenu(Admin& admin) {
     admin.loud_from_file("usersInfo/users.bin");
-    // --- Подменю Удаление заметок ---
+    // --- Подменю Удаление пользователей ---
     const int deleteNotesItemsNumberAmount=3;
     CMenuItem *deleteNotesItems = new CMenuItem[deleteNotesItemsNumberAmount]{
         {"Удалить пользователя", bind([&admin](){
-            cout << "Введи номер подльзователя: ";
+            cout << "Введи номер пользователя: ";
             int pos=getCorNum();
             admin.del_user(pos);
          })},

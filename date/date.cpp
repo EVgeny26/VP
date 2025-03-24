@@ -43,7 +43,7 @@ MYDATE::MYDATE(string date){
     day=idate[0];
     month=idate[1];
     year=idate[2];
-    delete idate;
+    delete[] idate;
 }
 
 MYDATE::MYDATE(tm* localTime): day(localTime->tm_mday), month(localTime->tm_mon+1), year(localTime->tm_year+1900){}

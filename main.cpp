@@ -14,7 +14,7 @@ int main() {
     Admin admin{"Evgeny", MYDATE{26,9,2006}, male, "MainAd", "12345678"};
     User user{"Evgeny", MYDATE{26,9,2006}, male, "Evg", "12345678"};
 
-    cout<<"Выбирете меню:\n";
+    cout<<"Выберете меню:\n";
     bool whatMenu=getCorNumDiaposone(0,1);
     CMenu *menu;
     if(whatMenu)menu = getAdminMenu(admin);
@@ -23,6 +23,6 @@ int main() {
     while (menu->isRun()) {
         menu->runCommand();
     }
-    
+    delete[] menu;
     return 0;
 }
