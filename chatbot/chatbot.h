@@ -3,52 +3,23 @@
 
 #include <iostream>
 #include <string>
-#include <vector>
+#include "notesVector.h"
 #include "../date/date.h"
-
-struct  NOTE{
-private:
-    MYDATE date;
-    string message;
-
-public:
-    NOTE();
-    NOTE(MYDATE,string);
-    ~NOTE();
-
-    MYDATE get_date();
-    string get_message();
-
-    void set_date(MYDATE);
-    void set_message(string);
-
-    bool operator>(const NOTE& other) const;
-    bool operator>=(const NOTE& other) const;
-    bool operator<=(const NOTE& other) const;
-    bool operator<(const NOTE& other) const;
-    bool operator==(const NOTE& other) const;
-    bool operator!=(const NOTE& other) const;
-
-    friend ostream& operator<<(ostream& os, const NOTE& note);
-    friend istream& operator>>(istream& is, NOTE& note);
-    NOTE& operator=(const NOTE& other);
-};
-
 
 class CHATBOT
 {
 private:
-    vector<NOTE> notes;
+    notesVector notes;
     MYDATE today;
     
     void sorted();
 public:
     CHATBOT();
-    CHATBOT(vector<NOTE> notes);
+    CHATBOT(notesVector notes);
     ~CHATBOT();
 
     MYDATE get_today();
-    vector<NOTE> get_notes();
+    notesVector& get_notes();
     int get_len();
 
     void add_note(NOTE note);
@@ -72,7 +43,5 @@ public:
 
     void temp();
 };
-
-ostream& operator<<(ostream& os, const vector<NOTE> notes);
 
 #endif //CHATBOT_H

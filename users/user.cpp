@@ -16,7 +16,7 @@ void User::loudBot(){bot->loud(get_login());}
 void User::saveBot(){bot->save(get_login());}
 
 void User::printNotes(){
-    vector<NOTE> notes = bot->get_notes();
+    notesVector& notes = bot->get_notes();
     if(notes.empty()){
         cout<<"\nЗаметок нет\n";
         return;

@@ -5,6 +5,6 @@
 #include "../users/user.h"
 
 // Объявление функции
-CMenu* getUserMenu(User& admin);
+CMenu* getUserMenu(User& user);
 
 #endif // USERMENU_H
