@@ -2,7 +2,8 @@
 
 bool isValidString(const string& str) {
     for (char c : str) {
-        if (!isalnum(c)) {
+        for(char let : " .,/()_*+")
+        if (let==c) {
             return false; // Если символ не буква и не цифра - строка не валидна
         }
     }

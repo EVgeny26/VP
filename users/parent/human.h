@@ -4,7 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <vector>
+#include "humanVector.h"
 #include "../../date/date.h"
 
 using namespace std;
@@ -41,11 +41,12 @@ public:
     unsigned short get_age();
     void get_info();
 
+    Human& operator=(const Human& other);
     friend ostream& operator<<(ostream& os, const Human& human);
     friend istream& operator>>(istream& is, Human& human);
 };
 
-bool writeHumansToFile(const string& filename, const vector<Human>& humans);
-bool readHumansFromFile(const string& filename, vector<Human>& humans);
+bool writeHumansToFile(const string& filename, const humanVector& humans);
+bool readHumansFromFile(const string& filename, humanVector& humans);
 
 #endif // HUMAN_H

@@ -50,6 +50,17 @@ void Human::get_info(){
     cout<<"Пол: "<<(gender? "ж":  "м")<<endl;
 }
 
+Human& Human::operator=(const Human& other) {
+    if (this != &other) {
+        name = other.name;
+        birth = other.birth;
+        gender = other.gender;
+        login = other.login;
+        password = other.password;
+    }
+    return *this;
+}
+
 // Дружественная функция для записи Human в бинарный файл
 ostream& operator<<(ostream& os, const Human& human) {
     size_t login_len = human.login.size();
@@ -100,7 +111,7 @@ istream& operator>>(istream& is, Human& human) {
 }
 
 // Функция для записи массива Human в бинарный файл
-bool writeHumansToFile(const string& filename, const vector<Human>& humans) {
+bool writeHumansToFile(const string& filename, const humanVector& humans) {
     ofstream file(filename, ios::binary);
     if (!file.is_open()) {
         cerr << "Ошибка: Не удалось открыть файл для записи: " << filename << endl;
@@ -119,7 +130,7 @@ bool writeHumansToFile(const string& filename, const vector<Human>& humans) {
 }
 
 // Функция для чтения массива Human из бинарного файла
-bool readHumansFromFile(const string& filename, vector<Human>& humans) {
+bool readHumansFromFile(const string& filename, humanVector& humans) {
     ifstream file(filename, ios::binary);
     if (!file.is_open()) {
         cerr << "Ошибка: Не удалось открыть файл для чтения: " << filename << endl;

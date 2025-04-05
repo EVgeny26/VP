@@ -1,4 +1,5 @@
 #include "admin.h"
+#include "../controlEnter/control.h"
 #include <iomanip>
 #include <fstream>
 
@@ -11,25 +12,19 @@ void Admin::add_user(User user){
 void Admin::add_user(){
     cout<<"Ввод нового пользователя:\n";
     cout<<"Введите логин:";
-    string login;
-    cin>>login;
+    string login=getCorName();
 
     cout<<"Введите пароль:";
-    string password;
-    cin>>password;
+    string password=getCorPassword();
 
     cout<<"Введите имя:";
-    string name;
-    cin>>name;
+    string name=getCorName();
 
     cout<<"Введите дату (пример: 3 5 2005)";
-    int d,m,y;
-    cin>>d>>m>>y;
-    MYDATE birth{d,m,y};
+    MYDATE birth=getCorDate();
 
     cout<<"Введите пол (male - 0, female - 1):";
-    int gender;
-    cin>>gender;
+    int gender=getCorNumDiaposone(0,1);
     users.push_back(User{name,birth,(GENDER)gender,login,password});
     cout<<"Пользователь введен\n\n";
 }
@@ -141,3 +136,13 @@ bool Admin::loud_from_file(string filename) {
     file.close();
     return 1;
 }
+
+// ostream& operator<<(ostream& os, const Admin& obj) {
+//     os << static_cast<const Human&>(obj);
+//     return os;
+// }
+
+// istream& operator>>(istream& is, Admin& obj) {
+//     is >> static_cast<Human&>(obj);
+//     return is;
+// }
