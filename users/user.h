@@ -10,6 +10,7 @@ class User : public Human {
 public:
     User();
     User(string login, string password, string name, MYDATE birth, GENDER gender);
+    User(const Human& human);
     ~User();
 
     CHATBOT* get_bot();

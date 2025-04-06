@@ -1,14 +1,14 @@
 #include <iostream>
 #include "controlEnter/control.h"
 #include "users/admin.h"
-#include <fstream>
 
 using namespace std;
 
-int main(){
 
-
-    cout<<"Ввод нового пользователя:\n";
+int main() {
+    humanVector vect;
+    readHumansFromFile("usersInfo/admins.bin", vect);
+    cout<<"Ввод нового админа:\n";
     cout<<"Введите логин:";
     string login=getCorName();
 
@@ -23,13 +23,8 @@ int main(){
 
     cout<<"Введите пол (male - 0, female - 1):";
     int gender=getCorNumDiaposone(0,1);
+    vect.push_back(Admin{login,password, name,birth,(GENDER)gender});
+    writeHumansToFile("usersInfo/admins.bin", vect);
 
-    ofstream fout("usersInfo/users.bin", ios::binary);
-    Admin{name,birth,(GENDER)gender,login,password};
-    
-    
-    
-    
-    cout<<"Пользователь введен\n\n";
     return 0;
 }

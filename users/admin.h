@@ -11,6 +11,7 @@ class Admin: public Human{
 
 public:
     Admin(string login, string password, string name, MYDATE birth, GENDER gender);
+    Admin(const Human& human);
     ~Admin();
 
     void add_user(User user);

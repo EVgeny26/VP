@@ -13,12 +13,12 @@ CMenu* getAdminMenu(Admin& admin) {
     // --- Подменю Удаление пользователей ---
     const int deleteNotesItemsNumberAmount=3;
     CMenuItem *deleteNotesItems = new CMenuItem[deleteNotesItemsNumberAmount]{
-        {"Удалить пользователя", bind([&admin](){
+        {"По индексу", bind([&admin](){
             cout << "Введи номер пользователя: ";
             int pos=getCorNum();
-            admin.del_user(pos);
+            admin.del_user(pos-1);
          })},
-         {"Delete User (by login)", bind([&admin](){
+         {"По логину", bind([&admin](){
             string login=getCorLogin();
             admin.del_user(login);
          })},
@@ -47,7 +47,7 @@ CMenu* getAdminMenu(Admin& admin) {
     CMenuItem *items = new CMenuItem[mainMenuItemsAmount]{
         {"Ввести всех пользователей", bind(&Admin::pritall, &admin)},
         {"Добавить пользователя", bind(static_cast<void (Admin::*)()>(&Admin::add_user), &admin)},
-        {"Удаление заметок", bind(&CMenu::runCommand, deleteNotesMenu)},
+        {"Удаление пользователя", bind(&CMenu::runCommand, deleteNotesMenu)},
         {"Сортировка пользователей",bind([&admin](){
             cout << "Введите поле для сортировки(1, 2, 3): ";
             int pole=getCorNumDiaposone(1,3)-1;

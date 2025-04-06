@@ -7,7 +7,8 @@ using namespace std;
 User::User(): Human(), bot(nullptr){}
 User::User(string login, string password, string name, MYDATE birth, GENDER gender)
     : Human(name, birth, gender, login, password), bot(nullptr) {}
-
+User::User(const Human& human) 
+    : Human(human), bot(nullptr) {}
 User::~User() {}
 CHATBOT* User::get_bot(){return bot;}
 void User::loudBot(){

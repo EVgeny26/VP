@@ -5,6 +5,8 @@
 
 Admin::Admin(string login, string password, string name, MYDATE birth, GENDER gender): Human(name, birth, gender, login, password) {}
 Admin::~Admin(){}
+Admin::Admin(const Human& human) 
+        : Human(human) {}
 
 void Admin::add_user(User user){
     users.push_back(user);
