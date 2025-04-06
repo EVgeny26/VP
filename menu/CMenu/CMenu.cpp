@@ -56,6 +56,7 @@ void CMenu::runCommand() {
     }while(select<0 || select>count-1);
     if (select==0) {
         setRunning(false); // Устанавливаем running в false при выборе "выйти"
+        items[count - 1].run();
         return;
     }items[select - 1].run();
     

@@ -11,8 +11,8 @@ using namespace std;
 
 
 int main() {
-    Admin admin{"Evgeny", MYDATE{26,9,2006}, male, "MainAd", "12345678"};
-    User user{"Evgeny", MYDATE{26,9,2006}, male, "Evg", "12345678"};
+    Admin admin{ "MainAd", "12345678", "Evgeny", MYDATE{26,9,2006}, male};
+    User user{"Vov", "12345678", "Vova", MYDATE{26,9,2006}, male};
 
     cout<<"Выберете меню:\n";
     bool whatMenu=getCorNumDiaposone(0,1);

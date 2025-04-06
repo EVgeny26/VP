@@ -3,15 +3,14 @@
 
 #include "parent/human.h"
 #include "user.h"
-#include <vector>
 #include <string>
 
 class Admin: public Human{
-    vector<User> users{};
+    humanVector users{};
 
 
 public:
-    Admin(string name, MYDATE birth, GENDER gender, string login, string password);
+    Admin(string login, string password, string name, MYDATE birth, GENDER gender);
     ~Admin();
 
     void add_user(User user);
@@ -23,8 +22,8 @@ public:
     //void filter();
 
     void pritall();
-    bool loud_from_file(string);
-    bool loud_to_file(string);
+    bool loud(string);
+    bool save(string);
 };
 
 #endif //ADMIN_h

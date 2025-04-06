@@ -116,15 +116,12 @@ notesVector::~notesVector() {
 notesVector::iterator notesVector::begin() {
     return iterator(m_array);
 }
-
 notesVector::iterator notesVector::end() {
     return iterator(m_end);
 }
-
 notesVector::const_iterator notesVector::begin() const {
     return const_iterator(m_array);
 }
-
 notesVector::const_iterator notesVector::end() const {
     return const_iterator(m_end);
 }

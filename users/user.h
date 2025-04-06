@@ -9,7 +9,7 @@ class User : public Human {
 
 public:
     User();
-    User(string name, MYDATE birth, GENDER gender, string login, string password);
+    User(string login, string password, string name, MYDATE birth, GENDER gender);
     ~User();
 
     CHATBOT* get_bot();
@@ -25,7 +25,6 @@ public:
     // Дружественные функции для ввода/вывода
     friend ostream& operator<<(ostream& os, const User& obj);
     friend istream& operator>>(istream& is, User& obj);
-    void printToConsoleInTable(ostream& os, int indents[5]);
 };
 
 #endif

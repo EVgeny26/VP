@@ -9,7 +9,7 @@
 using namespace std;
 
 CMenu* getAdminMenu(Admin& admin) {
-    admin.loud_from_file("usersInfo/users.bin");
+    admin.loud("usersInfo/users.bin");
     // --- Подменю Удаление пользователей ---
     const int deleteNotesItemsNumberAmount=3;
     CMenuItem *deleteNotesItems = new CMenuItem[deleteNotesItemsNumberAmount]{
@@ -57,8 +57,8 @@ CMenu* getAdminMenu(Admin& admin) {
         })},
         {"Вывести свои данные", bind(&Admin::get_info, &admin)},
         {"Выйти", bind([](Admin& admin){
-            admin.loud_to_file("usersInfo/users.bin");
-        }, ref(admin))},
+            admin.save("usersInfo/users.bin");
+        }, ref(admin))}
     };
 
     CMenu* adminMenu = new CMenu("Меню админа", items, mainMenuItemsAmount);

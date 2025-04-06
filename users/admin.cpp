@@ -3,7 +3,7 @@
 #include <iomanip>
 #include <fstream>
 
-Admin::Admin(string name, MYDATE birth, GENDER gender, string login, string password): Human(name, birth, gender, login, password) {}
+Admin::Admin(string login, string password, string name, MYDATE birth, GENDER gender): Human(name, birth, gender, login, password) {}
 Admin::~Admin(){}
 
 void Admin::add_user(User user){
@@ -11,21 +11,18 @@ void Admin::add_user(User user){
 }
 void Admin::add_user(){
     cout<<"Ввод нового пользователя:\n";
-    cout<<"Введите логин:";
-    string login=getCorName();
+    string login=getCorLogin();
 
-    cout<<"Введите пароль:";
     string password=getCorPassword();
 
-    cout<<"Введите имя:";
     string name=getCorName();
 
-    cout<<"Введите дату (пример: 3 5 2005)";
+    cout<<"Введите дату рождения\n";
     MYDATE birth=getCorDate();
 
     cout<<"Введите пол (male - 0, female - 1):";
     int gender=getCorNumDiaposone(0,1);
-    users.push_back(User{name,birth,(GENDER)gender,login,password});
+    users.push_back(User{login,password,name,birth,(GENDER)gender});
     cout<<"Пользователь введен\n\n";
 }
 void Admin::del_user(int pos){
@@ -63,7 +60,7 @@ void Admin::sorted(int pole=0, bool revers=0){
             }
             if (revers)isChangee-=1;
             if (isChangee) {
-                User temp = users[j];
+                auto temp = users[j];
                 users[j] = users[j + 1];
                 users[j + 1] = temp;
             }
@@ -100,7 +97,7 @@ void Admin::pritall(){
     }printLine(indents);
 }
 
-bool Admin::loud_to_file(string filename) {
+bool Admin::save(string filename) {
     ofstream file(filename, ios::binary);
     if (!file.is_open()) {
         cerr << "Ошибка: Не удалось открыть файл для записи: " << filename << endl;
@@ -110,7 +107,7 @@ bool Admin::loud_to_file(string filename) {
     size_t num_users = users.size();
     file.write((char*)(&num_users), sizeof(num_users));
 
-    for (const User& user : users) {
+    for (const auto& user : users) {
         file << user; // Используем перегруженный оператор << для User
     }
 
@@ -118,7 +115,7 @@ bool Admin::loud_to_file(string filename) {
     return 1;
 }
 
-bool Admin::loud_from_file(string filename) {
+bool Admin::loud(string filename) {
     ifstream file(filename, ios::binary);
     if (!file.is_open()) {
         cerr << "Ошибка: Не удалось открыть файл для чтения: " << filename << endl;
