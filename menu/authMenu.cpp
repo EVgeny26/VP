@@ -12,8 +12,8 @@
 using namespace std;
 
 // --- Глобальные переменные для хранения данных ---
-humanVector allUsers;    // Все пользователи (User)
-humanVector allAdmins;   // Все админы (Admin)
+Vector<Human> allUsers;    // Все пользователи (User)
+Vector<Human> allAdmins;   // Все админы (Admin)
 
 // --- Загрузка пользователей из файлов ---
 bool loadUsers() {

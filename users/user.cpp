@@ -24,7 +24,7 @@ void User::printNotes(){
         cout<<"\nЗаметок нет\n";
         return;
     }
-    notesVector& notes = bot->get_notes();
+    Vector<NOTE>& notes = bot->get_notes();
     if(notes.empty()){
         cout<<"\nЗаметок нет\n";
         return;

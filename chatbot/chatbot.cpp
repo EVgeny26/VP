@@ -44,12 +44,71 @@ bool exists(const string& path) {
     #endif
 }
 
+NOTE::NOTE(): date(MYDATE()), message((string)""){}
+NOTE::NOTE(MYDATE date, string message): date(date), message(message){}
+NOTE::~NOTE(){}
+
+MYDATE NOTE::get_date(){return date;}
+string NOTE::get_message(){return message;}
+
+void NOTE::set_date(MYDATE date){this->date=date;}
+void NOTE::set_message(string message){this->message=message;}
+
+bool NOTE::operator>(const NOTE& other) const{
+    if(this->date==other.date)return this->message>other.message;
+    return this->date>other.date;
+}
+bool NOTE::operator<(const NOTE& other) const{
+    if(this->date==other.date)return this->message<other.message;
+    return this->date<other.date;
+}
+bool NOTE::operator<=(const NOTE& other) const{
+    return !operator>(other);
+}
+bool NOTE::operator>=(const NOTE& other) const{
+    return !operator<(other);
+}
+bool NOTE::operator==(const NOTE& other) const{
+    return this->date==other.date && this->message==other.message;
+}
+bool NOTE::operator!=(const NOTE& other) const{
+    return !operator==(other);
+}
+
+ostream& operator<<(ostream& os, const NOTE& note){
+    os<<note.date;
+    size_t message_len = note.message.size();
+    os.write((char*)(&message_len), sizeof(message_len));
+    os.write(note.message.c_str(), message_len);
+    return os;
+}
+istream& operator>>(istream& is, NOTE& note){
+    is>>note.date;
+    if(!is.fail()){
+        size_t message_len;
+        is.read((char*)(&message_len), sizeof(message_len));
+        char *str = new char[message_len+1];
+        is.read(str, message_len);
+        note.message=str;
+        delete[] str;
+    }
+    return is;
+}
+
+NOTE& NOTE::operator=(const NOTE& other){
+    if (this != &other) {
+        date = other.date;
+        message = other.message;
+    }
+    return *this;
+}
+
 CHATBOT::CHATBOT(){
     time_t currentTime = time(0);
     tm* localTime = localtime(&currentTime);
     today=MYDATE(localTime);
 }
-CHATBOT::CHATBOT(notesVector notes): notes(notes) {
+CHATBOT::CHATBOT(Vector<NOTE> notes): notes(notes) {
     time_t currentTime = time(0);
     tm* localTime = localtime(&currentTime);
     today=MYDATE{localTime};
@@ -70,7 +129,7 @@ void CHATBOT::sorted(){
 }
 MYDATE CHATBOT::get_today(){return today;}
 int CHATBOT::get_len(){return notes.size();}
-notesVector& CHATBOT::get_notes(){return notes;}
+Vector<NOTE>& CHATBOT::get_notes(){return notes;}
 
 void CHATBOT::add_note(NOTE note){
     for(int i=0;i<notes.size();i++){
@@ -81,7 +140,7 @@ void CHATBOT::add_note(NOTE note){
     }notes.push_back(note);
 }
 void CHATBOT::notes_today(){
-    notesVector notesToday;
+    Vector<NOTE> notesToday;
     for(NOTE note : notes){
         if(note.get_date()>today)break;
         notesToday.push_back(note);
@@ -96,7 +155,7 @@ void CHATBOT::notes_today(){
     }
 }
 void CHATBOT::notes_day(MYDATE date){
-    notesVector notesDay;
+    Vector<NOTE> notesDay;
     for(NOTE note : notes){
         if(note.get_date()==date)notesDay.push_back(note);
         if(note.get_date()>date)break;
@@ -278,8 +337,12 @@ NOTE& CHATBOT::operator[](int pos){
     return notes[pos];
 }
 
-void CHATBOT::temp(){
-    ofstream fout("test.txt");
-    fout<<*this;
-    fout.close();
+ostream& operator<<(ostream& os, const Vector<NOTE>& notes){
+    os<<"   ДАТА   : Заметка"<<endl;
+    for(auto note : notes){
+        os<<right<<setw(10)<<note.get_date().to_str()<<": "<<note.get_message()<<endl;
+    }return os;
 }
+
+
+

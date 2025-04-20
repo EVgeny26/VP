@@ -6,7 +6,7 @@
 #include <string>
 
 class Admin: public Human{
-    humanVector users{};
+    Vector<Human> users{};
 
 
 public:

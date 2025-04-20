@@ -3,23 +3,52 @@
 
 #include <iostream>
 #include <string>
-#include "notesVector.h"
-#include "../date/date.h"
+#include "../myclasses/myvector.h"
+#include "../myclasses/date.h"
+
+struct  NOTE{
+private:
+    MYDATE date;
+    string message;
+
+public:
+    NOTE();
+    NOTE(MYDATE,string);
+    ~NOTE();
+
+    MYDATE get_date();
+    string get_message();
+
+    void set_date(MYDATE);
+    void set_message(string);
+
+    bool operator>(const NOTE& other) const;
+    bool operator>=(const NOTE& other) const;
+    bool operator<=(const NOTE& other) const;
+    bool operator<(const NOTE& other) const;
+    bool operator==(const NOTE& other) const;
+    bool operator!=(const NOTE& other) const;
+
+    friend ostream& operator<<(ostream& os, const NOTE& note);
+    friend istream& operator>>(istream& is, NOTE& note);
+    NOTE& operator=(const NOTE& other);
+};
+
 
 class CHATBOT
 {
 private:
-    notesVector notes;
+    Vector<NOTE> notes;
     MYDATE today;
     
     void sorted();
 public:
     CHATBOT();
-    CHATBOT(notesVector notes);
+    CHATBOT(Vector<NOTE> notes);
     ~CHATBOT();
 
     MYDATE get_today();
-    notesVector& get_notes();
+    Vector<NOTE>& get_notes();
     int get_len();
 
     void add_note(NOTE note);
@@ -40,8 +69,8 @@ public:
     friend ostream& operator<<(ostream& os, const CHATBOT& bot);
     friend istream& operator>>(istream& is, CHATBOT& bot);
     NOTE& operator[](int pos);
-
-    void temp();
 };
+
+ostream& operator<<(ostream& os, const Vector<NOTE>& notes);
 
 #endif //CHATBOT_H

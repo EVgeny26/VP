@@ -1,7 +1,7 @@
 #ifndef CONTROL_H
 #define CONTROL_H
 
-#include "../date/date.h"
+#include "../myclasses/date.h"
 
 #include <string>
 #include <limits> // Для numeric_limits
