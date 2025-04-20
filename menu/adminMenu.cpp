@@ -16,11 +16,20 @@ CMenu* getAdminMenu(Admin& admin) {
         {"По индексу", bind([&admin](){
             cout << "Введи номер пользователя: ";
             int pos=getCorNum();
-            admin.del_user(pos-1);
+            try{
+                admin.del_user(pos-1);
+            }catch (const char* my_exce){
+                cerr<< "Error! Name error: " << my_exce << endl;
+            }
          })},
          {"По логину", bind([&admin](){
             string login=getCorLogin();
-            admin.del_user(login);
+            
+            try{
+                admin.del_user(login);
+            }catch (const char* my_exce){
+                cerr<< "Error! Name error: " << my_exce << endl;
+            }
          })},
         {"Возвращение в главное меню", returnToMainMenu}
     };
@@ -53,7 +62,11 @@ CMenu* getAdminMenu(Admin& admin) {
             int pole=getCorNumDiaposone(1,3)-1;
             cout << "Требуется ли реверс(0 или 1): ";
             bool revers=getCorNumDiaposone(0,1);
-            admin.sorted(pole, revers);
+            try{
+                admin.sorted(pole, revers);
+            }catch (const char* my_exce){
+                cerr<< "Error! Name error: " << my_exce << endl;
+            }
         })},
         {"Вывести свои данные", bind(&Admin::get_info, &admin)},
         {"Выйти", bind([](Admin& admin){

@@ -23,8 +23,8 @@ public:
     //void filter();
 
     void pritall();
-    bool loud(string);
-    bool save(string);
+    void loud(string);
+    void save(string);
 };
 
 #endif //ADMIN_h

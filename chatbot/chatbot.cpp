@@ -170,7 +170,7 @@ void CHATBOT::notes_day(MYDATE date){
 
 void CHATBOT::pop_note(int pos){
     if(pos>=notes.size()){
-        cerr<<"Out of range\n";
+        throw "Out of range";
         return;
     }
     notes.erase(notes.begin()+pos);
@@ -181,7 +181,7 @@ void CHATBOT::del_note(NOTE note){
             notes.erase(notes.begin()+i);
             return;
         }
-    }cerr<<"Note don\'t find\n";
+    }throw "Note don\'t find";
 }
 void CHATBOT::del_all_notes(){
     cout<<"Вы уверены? Введите 1, чтобы удалить, или 0, чтобы отменить действие:";
@@ -192,10 +192,9 @@ void CHATBOT::del_all_notes(){
 }
 void CHATBOT::del_note_completed(int pos){
     if(pos>=notes.size()){
-        cerr<<"Out of range\n";
-        return;
+        throw "Out of range";
     }
-    if(notes[pos].get_date()>today)cerr<<"Out of range of completed\n";
+    if(notes[pos].get_date()>today)throw "Out of range of completed\n";
     else notes.erase(notes.begin()+pos);
 }
 void CHATBOT::del_all_completed(){
@@ -318,7 +317,7 @@ istream& operator>>(istream& is, CHATBOT& bot){
         is.setstate(ios::failbit);
         return is;
     }
-    bot.notes.resize(notes_size); // Изменяем размер вектора notes
+    bot.notes.resize(notes_size);
     for (size_t i = 0; i < notes_size; ++i) {
         is >> bot.notes[i]; // Используем перегруженный оператор для NOTE
         if (is.fail()) {
@@ -330,9 +329,7 @@ istream& operator>>(istream& is, CHATBOT& bot){
 }
 NOTE& CHATBOT::operator[](int pos){
     if(pos>=notes.size()||pos<0){
-        cerr<<"Out of range\n";
-        static NOTE dummyNote;
-        return dummyNote;
+        throw "Out of range";
     }
     return notes[pos];
 }

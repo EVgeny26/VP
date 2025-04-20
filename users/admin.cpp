@@ -2,6 +2,7 @@
 #include "../controlEnter/control.h"
 #include <iomanip>
 #include <fstream>
+#include <stdexcept>
 
 Admin::Admin(string login, string password, string name, MYDATE birth, GENDER gender): Human(name, birth, gender, login, password) {}
 Admin::~Admin(){}
@@ -29,8 +30,7 @@ void Admin::add_user(){
 }
 void Admin::del_user(int pos){
     if(pos>=users.size()){
-        cerr<<"Out of range\n";
-        return;
+        throw "Out of range";
     }
     users.erase(users.begin()+pos);
 }
@@ -40,7 +40,7 @@ void Admin::del_user(string login){
             users.erase(users.begin()+i);
             return;
         }
-    }cerr<<"Login don\'t find\n";
+    }throw "Login don\'t find\n";
 }
 
 void Admin::sorted(int pole=0, bool revers=0){
@@ -58,7 +58,7 @@ void Admin::sorted(int pole=0, bool revers=0){
                     isChangee=users[j].get_DATE()>users[j+1].get_DATE();
                     break;
                 default:
-                    return;
+                    throw "Wrongpole!";
             }
             if (revers)isChangee-=1;
             if (isChangee) {
@@ -99,11 +99,10 @@ void Admin::pritall(){
     }printLine(indents);
 }
 
-bool Admin::save(string filename) {
+void Admin::save(string filename) {
     ofstream file(filename, ios::binary);
     if (!file.is_open()) {
-        cerr << "Ошибка: Не удалось открыть файл для записи: " << filename << endl;
-        return 0;
+        throw "Ошибка: Не удалось открыть файл для записи";
     }
 
     size_t num_users = users.size();
@@ -114,14 +113,12 @@ bool Admin::save(string filename) {
     }
 
     file.close();
-    return 1;
 }
 
-bool Admin::loud(string filename) {
+void Admin::loud(string filename) {
     ifstream file(filename, ios::binary);
     if (!file.is_open()) {
-        cerr << "Ошибка: Не удалось открыть файл для чтения: " << filename << endl;
-        return 0;
+        throw "Ошибка: Не удалось открыть файл для чтения: " + filename;
     }
 
     size_t num_users;
@@ -133,7 +130,6 @@ bool Admin::loud(string filename) {
     }
 
     file.close();
-    return 1;
 }
 
 // ostream& operator<<(ostream& os, const Admin& obj) {

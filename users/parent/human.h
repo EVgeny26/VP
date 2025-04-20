@@ -43,6 +43,8 @@ public:
     void printToConsoleInTable(ostream& os, int indents[5]);
 
     Human& operator=(const Human& other);
+    bool operator==(const Human& other);
+    bool operator!=(const Human& other);
     friend ostream& operator<<(ostream& os, const Human& human);
     friend istream& operator>>(istream& is, Human& human);
 };

@@ -70,6 +70,12 @@ Human& Human::operator=(const Human& other) {
     }
     return *this;
 }
+bool Human::operator==(const Human& other){
+    return password==other.password && name==other.name;
+}
+bool Human::operator!=(const Human& other){
+    return !operator==(other);
+}
 
 // Дружественная функция для записи Human в бинарный файл
 ostream& operator<<(ostream& os, const Human& human) {

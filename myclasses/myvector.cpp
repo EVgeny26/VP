@@ -82,7 +82,7 @@ T& Vector<T>::operator[](size_t index) {
     if (index < m_size) {
         return m_array[index];
     }
-    throw out_of_range("Index out of range"); // Или другой способ обработки ошибки
+    throw out_of_range("Index out of range");
 }
 
 template <typename T>
@@ -90,7 +90,7 @@ const T& Vector<T>::operator[](size_t index) const {
     if (index < m_size) {
         return m_array[index];
     }
-    throw out_of_range("Index out of range"); // Или другой способ обработки ошибки
+    throw out_of_range("Index out of range");
 }
 
 template <typename T>

@@ -12,8 +12,8 @@
 using namespace std;
 
 // --- Глобальные переменные для хранения данных ---
-Vector<Human> allUsers;    // Все пользователи (User)
-Vector<Human> allAdmins;   // Все админы (Admin)
+Vector<Human> allUsers;    
+Vector<Human> allAdmins;   
 
 // --- Загрузка пользователей из файлов ---
 bool loadUsers() {
@@ -53,6 +53,11 @@ CMenu* getAuthMenu() {
                     }
                     delete adminMenu;
                     readHumansFromFile("usersInfo/users.bin", allUsers);
+                    if(currentAdmin!=admin){
+                        admin.set_name(currentAdmin.get_name());
+                        admin.set_password(currentAdmin.get_password());
+                        writeHumansToFile("usersInfo/admin.bin", allAdmins);
+                    }
                     return;
                 }
             }
@@ -65,6 +70,11 @@ CMenu* getAuthMenu() {
                         userMenu->runCommand();
                     }
                     delete userMenu;
+                    if(currentUser!=user){
+                        user.set_name(currentUser.get_name());
+                        user.set_password(currentUser.get_password());
+                        writeHumansToFile("usersInfo/users.bin", allUsers);
+                    }
                     return;
                 }
             }

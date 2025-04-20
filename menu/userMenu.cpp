@@ -33,23 +33,31 @@ CMenu* getUserMenu(User& user){
         {"Дату", bind([](User& user){
             cout << "Введите позицию выбранной заметки: ";
             int position=getCorNum();
-            NOTE& note=(*user.get_bot())[position-1];
-            if(note!=NOTE()){
-                cout << "Ввод даты:\n";
-                MYDATE date=getCorDate();
-                note.set_date(date);
+            try{
+                NOTE& note=(*user.get_bot())[position-1];
+                if(note!=NOTE()){
+                    cout << "Ввод даты:\n";
+                    MYDATE date=getCorDate();
+                    note.set_date(date);
+                }
+            }catch (const char* my_exce){
+                cerr<< "Error! Name error: " << my_exce << endl;
             }
             }, ref(user))
         },
         {"Сообщение", bind([](User& user){
             cout << "Введите позицию выбранной заметки: ";
             int position=getCorNum();
-            NOTE& note=(*user.get_bot())[position-1];
-            if(note!=NOTE()){
-                string message;
-                cout << "Введи сообщение: ";
-                getline(cin >> ws, message);
-                note.set_message(message);
+            try{
+                NOTE& note=(*user.get_bot())[position-1];
+                if(note!=NOTE()){
+                    string message;
+                    cout << "Введи сообщение: ";
+                    getline(cin >> ws, message);
+                    note.set_message(message);
+                }
+            }catch (const char* my_exce){
+                cerr<< "Error! Name error: " << my_exce << endl;
             }
             }, ref(user))
         },
@@ -63,13 +71,22 @@ CMenu* getUserMenu(User& user){
         {"По индексу", bind([](User& user){
                 cout << "Введите позицию выбранной заметки: ";
                 int position=getCorNum();
-                user.get_bot()->pop_note(position-1);
+                try{
+                    user.get_bot()->pop_note(position-1);
+                }catch (const char* my_exce){
+                    cerr<< "Error! Name error: " << my_exce << endl;
+                }
             }, ref(user))
         },
         {"Выполненую по индексу", bind([](User& user){
-                    cout << "Введите позицию выбранной выполненой заметки: ";
-                    int position=getCorNum();
+                cout << "Введите позицию выбранной выполненой заметки: ";
+                int position=getCorNum();
+                try{
                     user.get_bot()->del_note_completed(position-1);
+                }catch (const char* my_exce){
+                    cerr<< "Error! Name error: " << my_exce << endl;
+                }
+                    
             }, ref(user))
         },
         {"Все выполненые", bind([](User& user){
@@ -142,6 +159,5 @@ CMenu* getUserMenu(User& user){
     };
     CMenu *userMenu = new CMenu("Меню пользователя", mainMenuItems, mainMenuItemsAmount);
     
-    // return displayNotesMenu;
     return userMenu;
 }

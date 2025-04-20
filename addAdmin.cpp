@@ -6,7 +6,7 @@ using namespace std;
 
 
 int main() {
-    humanVector vect;
+    Vector<Human> vect;
     readHumansFromFile("usersInfo/admins.bin", vect);
     cout<<"Ввод нового админа:\n";
     cout<<"Введите логин:";
