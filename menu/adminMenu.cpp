@@ -52,7 +52,7 @@ CMenu* getAdminMenu(Admin& admin) {
     };
     CMenu *editProfileMenu = new CMenu("Изменение профиля", editProfileItems, editProfileItemsAmount);
 
-    const int mainMenuItemsAmount = 6;
+    const int mainMenuItemsAmount = 7;
     CMenuItem *items = new CMenuItem[mainMenuItemsAmount]{
         {"Ввести всех пользователей", bind(&Admin::pritall, &admin)},
         {"Добавить пользователя", bind(static_cast<void (Admin::*)()>(&Admin::add_user), &admin)},
@@ -69,6 +69,7 @@ CMenu* getAdminMenu(Admin& admin) {
             }
         })},
         {"Вывести свои данные", bind(&Admin::get_info, &admin)},
+        {"Изменить свои данные", bind(&CMenu::runCommand, editProfileMenu)},
         {"Выйти", bind([](Admin& admin){
             admin.save("usersInfo/users.bin");
         }, ref(admin))}

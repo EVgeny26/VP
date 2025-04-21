@@ -16,9 +16,9 @@ Vector<Human> allUsers;
 Vector<Human> allAdmins;   
 
 // --- Загрузка пользователей из файлов ---
-bool loadUsers() {
-    return readHumansFromFile("usersInfo/users.bin", allUsers) && 
-           readHumansFromFile("usersInfo/admins.bin", allAdmins);
+void loadUsers() {
+    readHumansFromFile("usersInfo/users.bin", allUsers) && 
+    readHumansFromFile("usersInfo/admins.bin", allAdmins);
 }
 
 // --- Проверка, занят ли логин ---
@@ -34,7 +34,7 @@ bool isLoginTaken(const string& login) {
 
 // --- Меню авторизации ---
 CMenu* getAuthMenu() {
-    loadUsers(); // Загружаем пользователей при старте
+    loadUsers();
 
     const int authMenuItemsAmount = 3;
     CMenuItem* authItems = new CMenuItem[authMenuItemsAmount]{
@@ -63,6 +63,7 @@ CMenu* getAuthMenu() {
             }
             // Проверяем среди пользователей
             for (auto& user : allUsers) {
+                // cout<< (user.get_login() == login) << (user.get_password() == password);
                 if (user.get_login() == login && user.get_password() == password) {
                     User currentUser = user;
                     CMenu* userMenu = getUserMenu(currentUser);
@@ -78,7 +79,7 @@ CMenu* getAuthMenu() {
                     return;
                 }
             }
-            cout << "Ошибка: Неверный логин или пароль!\n";
+            cout << "Неверный логин или пароль!\n";
         }},
         {"Регистрация", []() {
             string login, password;
