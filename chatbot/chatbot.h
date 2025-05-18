@@ -56,7 +56,7 @@ public:
     void notes_day(MYDATE date);
     void pop_note(int pos);
     void del_note(NOTE note);
-    void del_all_notes();
+    bool del_all_notes();
     void del_note_completed(int pos);
     void del_all_completed();
 

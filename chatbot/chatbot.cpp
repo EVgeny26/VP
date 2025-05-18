@@ -183,12 +183,18 @@ void CHATBOT::del_note(NOTE note){
         }
     }throw "Note don\'t find";
 }
-void CHATBOT::del_all_notes(){
+bool CHATBOT::del_all_notes(){
     cout<<"Вы уверены? Введите 1, чтобы удалить, или 0, чтобы отменить действие:";
     char *ch = new char[2];
     cin>>ch;
-    if(ch[0]=='1')notes.clear();
-    delete[] ch;
+    if(ch[0]=='1'){
+        notes.clear();
+        delete[] ch;
+        return 1;
+    }else{
+        delete[] ch;
+        return 0;
+    }
 }
 void CHATBOT::del_note_completed(int pos){
     if(pos>=notes.size()){
