@@ -2,6 +2,6 @@
 В папке TestMenu создать папку menu и файл с основной программой main.cpp.
 В папку menu необходимо вложить по дфай файла .h (заголовочный)  и .cpp (файл реализации) для классов CMenu и  CMenuItem.
 Далее необходимо прокомпилировать все .cpp файлы командой в терминале, выполнив команду: 
-g++ chatbot/chatbot.h controlEnter/control.h myclasses/date.h myclasses/myvector.h menu/CMenu/CMenuItem.h menu/CMenu/CMenu.h menu/authMenu.h users/parent/human.h users/admin.h users/user.h
-g++ ./main.cpp chatbot/chatbot.cpp controlEnter/control.cpp myclasses/date.cpp myclasses/myvector.cpp menu/CMenu/CMenuItem.cpp menu/CMenu/CMenu.cpp menu/authMenu.cpp users/parent/human.cpp users/admin.cpp users/user.cpp
+g++ chatbot/chatbot.h controlEnter/control.h myclasses/date.h myclasses/myvector.h myclasses/logger.h menu/CMenu/CMenuItem.h menu/CMenu/CMenu.h menu/allMenu.h users/parent/human.h users/admin.h users/user.h
+g++ ./main.cpp chatbot/chatbot.cpp controlEnter/control.cpp myclasses/date.cpp myclasses/myvector.cpp myclasses/logger.cpp menu/CMenu/CMenuItem.cpp menu/CMenu/CMenu.cpp menu/allMenu.cpp users/parent/human.cpp users/admin.cpp users/user.cpp
 После этого запустить программу в терминале командой .\a.exe в ОС Windows или ./a.out в ОС Linux.

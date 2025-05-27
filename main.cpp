@@ -1,4 +1,4 @@
-#include "menu/authMenu.h"
+#include "menu/allMenu.h"
 
 using namespace std;
 
