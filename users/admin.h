@@ -20,8 +20,6 @@ public:
     void del_user(string login);
     void sorted(int pole, bool revers);
 
-    //void filter();
-
     void pritall();
     void loud(string);
     void save(string);

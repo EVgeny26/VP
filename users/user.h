@@ -17,13 +17,8 @@ public:
     void loudBot();
     void saveBot();
 
-    // Методы с ботом
     void printNotes();
-    void printCompletedNotes();
-    void printNotesDay(MYDATE date);
 
-
-    // Дружественные функции для ввода/вывода
     friend ostream& operator<<(ostream& os, const User& obj);
     friend istream& operator>>(istream& is, User& obj);
 };

@@ -45,7 +45,6 @@ class Vector {
         T& operator[](size_t index);
         const T& operator[](size_t index) const;
     
-        // Добавленные методы для соответствия функциональности vector
         void push_back(const T& note);
         void pop_back();
         void insert(iterator position, const T& value);
